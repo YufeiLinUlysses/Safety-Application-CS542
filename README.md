@@ -1,6 +1,6 @@
 # Safety-Application-CS542
 
-## python code specification:
+## Python code specification:
 
 ### Use tab instead of space;
 
