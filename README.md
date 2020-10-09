@@ -26,8 +26,13 @@ def Get()
 ### File:
 The file name should always be small capital: file_name
 
-If you have any questions or objections, feel free to discuss in whatsapp.
-# criminalanalysisdashboard
+
+# Criminal Analysis Dashboard
+
+## Go to the directory dashboard, then run the following command
+```
+cd dashboard
+```
 
 ## Project setup
 ```
@@ -44,10 +49,4 @@ npm run serve
 npm run build
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+If you have any questions or objections, feel free to discuss in whatsapp.
