@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Safety-Application-CS542
 
 ## Python code specification:
@@ -28,7 +27,6 @@ def Get()
 The file name should always be small capital: file_name
 
 If you have any questions or objections, feel free to discuss in whatsapp.
-=======
 # criminalanalysisdashboard
 
 ## Project setup
@@ -53,4 +51,3 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
->>>>>>> criminalanalysisdashboard/master
