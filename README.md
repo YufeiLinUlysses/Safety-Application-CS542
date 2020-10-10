@@ -26,8 +26,21 @@ def Get()
 ### File:
 The file name should always be small capital: file_name
 
+# Server
+
+## Go to the directory server, then run the following command
+```
+cd server
+```
+
+## Run server
+```
+python3 app.py
+```
 
 # Criminal Analysis Dashboard
+
+## Remember, you could only run dashboard after you run the server
 
 ## Go to the directory dashboard, then run the following command
 ```
