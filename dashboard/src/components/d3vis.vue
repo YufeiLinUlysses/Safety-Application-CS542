@@ -1,16 +1,21 @@
 <template>
-  <v-col id="arc" />
+  <div>
+    <v-col id="arc" />
+    <p>{{ gdp }}</p>
+  </div>
 </template>
 
 <script>
 import * as d3 from "d3";
 import axios from "axios";
+
 var webcall = axios.create({
   baseURL: "http://127.0.0.1:5000/",
   timeout: 20000,
   withCredentials: false,
   headers: { "Content-Type": "application/json" },
 });
+
 export default {
   name: "App",
   data() {
@@ -88,12 +93,16 @@ export default {
     createGraph() {
       var vm = this;
       var url = "/gdp";
-
-      webcall.get(url).then(function (response) {
-        var temp = JSON.parse(JSON.stringify(response.data));
-        vm.gdp = temp;
-        vm.generateArc(vm.gdp);
-      });
+      try {
+        webcall.get(url).then(async function (response) {
+          var temp = await JSON.parse(JSON.stringify(response.data));
+          vm.gdp = await temp;
+          vm.generateArc(vm.gdp);
+        });
+      } catch (err) {
+        console.log("error");
+        alert(err);
+      }
     },
   },
 };
