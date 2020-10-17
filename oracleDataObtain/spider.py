@@ -1,7 +1,8 @@
 from urllib.request import urlopen
 import find_part
 import file_manager
-
+import bs4
+#import lxml
 class CSpider:
 
 
@@ -12,14 +13,15 @@ class CSpider:
     m_CrawledFile = ''
     m_QueueSet = set()
     m_CrawledSet = set()
-    def __init__(self, sProjectName, sBaseUrl, sDomainName):
+    def __init__(self, sProjectName, sBaseUrl, sDomainName=None):
         CSpider.m_ProjectName = sProjectName
         CSpider.m_BaseUrl = sBaseUrl
         CSpider.m_DomainName = sDomainName
         CSpider.m_QueueFile = sProjectName + "/queue.txt"
         CSpider.m_CrawledFile= sProjectName + "/crawled.txt"
-        self.Boot()
-        self.CrawlPage("first spider", CSpider.m_BaseUrl)
+        #self.Boot()
+        #self.CrawlPage("first spider", CSpider.m_BaseUrl)
+        #self.TestCrawl()
 
     @staticmethod
     def Boot():
@@ -38,6 +40,13 @@ class CSpider:
             CSpider.m_CrawledSet.add(sUrl)
             CSpider.m_QueueSet.remove(sUrl)
             CSpider.UpdateFile()
+
+    @staticmethod
+    def TestCrawl():
+        sSource = urlopen(CSpider.m_BaseUrl).read()
+        sSoup = bs4.BeautifulSoup(sSource,'lxml')
+        file_manager.TestWrite(sSoup.get_text())
+
 
     @staticmethod
     def GatherLinks(sUrl):
@@ -86,3 +95,9 @@ class CSpider:
         file_manager.Set2File(CSpider.m_QueueSet, CSpider.m_QueueFile)
         file_manager.Set2File(CSpider.m_CrawledSet, CSpider.m_CrawledFile)
 
+
+def TestCase():
+    CSpider('crime_data', 'https://bpdnews.com/')
+    CSpider.TestCrawl()
+
+TestCase()
