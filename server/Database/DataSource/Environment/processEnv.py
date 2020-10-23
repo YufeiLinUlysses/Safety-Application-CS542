@@ -1,10 +1,11 @@
 import pandas as pd
 import datetime
+import numpy as np
 result = pd.DataFrame()
 boston = pd.read_csv("Boston.csv")
 boston["date_time"] = pd.to_datetime(
     boston["date_time"], format='%Y-%m-%d %H:%M:%S')
-result["date"] = boston["date_time"].dt.date
+result["date"] = pd.to_datetime(boston["date_time"].dt.date).values.astype(np.int64)//10**9
 result["time"] = boston["date_time"].dt.hour
 # in celcius
 result["temperature"] = boston["HeatIndexC"]

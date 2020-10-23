@@ -1,5 +1,6 @@
 import pymysql
-from Database.envir import CreateTable,InsertData,SelectAll
+from Database import envir # import CreateTable,InsertData,SelectAll
+from Database import loc
 
 class DB():
     db = None
@@ -13,4 +14,6 @@ class DB():
     )
 
 db = DB("CRIMINALANALYSIS").db
-print(SelectAll(db))
+# envir.CreateTable(db)
+print(envir.SelectAll(db))
+print(len(envir.SelectAll(db)))
