@@ -1,3 +1,6 @@
+# Author: Yufei Lin
+# Email: ylin9@wpi.edu
+# Only use it to create in test database
 import json
 
 def createTestTable(dbcon):

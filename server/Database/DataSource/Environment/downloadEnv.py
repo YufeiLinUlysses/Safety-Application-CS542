@@ -9,7 +9,7 @@ import pandas as pd
 frequency = 3
 start_date = '01-JAN-2016'
 end_date = '31-DEC-2019'
-api_key = '85c15360d11741168af24709202310'
+api_key = 'YOURAPIKEY'
 location_list = ['Boston']
 
 
