@@ -16,18 +16,12 @@ db = pymysql.connect(
 
 @app.route('/gdp', methods=["GET"])
 def index():
+    # createTestTable(db)
+    # insertGDPData(db)
+    # print(checkTableExists(db,'gdp'))
     result = fetchAllFromGDP(db)
-    db.close()
     print(result)
     return result
 
 
 app.run()
-
-# print( json.dumps([
-#         {"country": "USA", "value": 20.5},
-#         {"country": "China", "value": 13.4},
-#         {"country": "Germany", "value": 4.0},
-#         {"country": "Japan", "value": 4.9},
-#         {"country": "France", "value": 2.8}
-#     ]))
