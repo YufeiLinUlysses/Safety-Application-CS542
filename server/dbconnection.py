@@ -13,7 +13,7 @@ class DB():
         port=3306
     )
 
-db = DB("CRIMINALANALYSIS").db
+# db = DB("CRIMINALANALYSIS").db
 # envir.CreateTable(db)
-print(envir.SelectAll(db))
-print(len(envir.SelectAll(db)))
+# print(envir.SelectAll(db))
+# print(len(envir.SelectAll(db)))

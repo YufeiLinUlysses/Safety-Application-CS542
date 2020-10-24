@@ -16,7 +16,8 @@ CREATE_SQL = {"CreateEnv": '''CREATE TABLE ENVIRONMENT(
     WEATHER VARCHAR(128),
     PRIMARY KEY(WDATE, HOUR))'''}
 
-SELECT_SQL = {"SelectAll": "Select * from ENVIRONMENT"}
+SELECT_SQL = {"SelectAll": "Select * from ENVIRONMENT",
+              "CntWeather": "(SELECT Weather, COUNT(*) AS CNT FROM ENVIRONMENT group by weather) ORDER BY CNT DESC"}
 INSERT_SQL = {"InsertALL": '''INSERT INTO ENVIRONMENT VALUES
                             (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'''}
 
@@ -71,3 +72,21 @@ def InsertData(dbcon):
         dbcon.commit()
     except Exception as e:
         print(e)
+
+def cntWeather(dbcon):
+    sql = SELECT_SQL["CntWeather"]
+    try:
+        dbcur = dbcon.cursor()
+        dbcur.execute(sql)
+        rows = dbcur.fetchall()
+        columns = [desc[0] for desc in dbcur.description]
+        result = []
+        for row in rows:
+            row = dict(zip(columns, row))
+            result.append(row)
+        final = json.dumps(result)
+        return final
+    except Exception as e:
+        dbcon.rollback()
+        print(e)
+        return None

@@ -17,7 +17,7 @@ var webcall = axios.create({
 });
 
 export default {
-  name: "App",
+  name: "vis",
   data() {
     return {
       gdp: [],
