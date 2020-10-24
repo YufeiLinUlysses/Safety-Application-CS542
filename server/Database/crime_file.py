@@ -1,11 +1,17 @@
+# Author: Torres Fan
+# Email: xfan3@wpi.edu
+
 import json
 import csv
+import checkTables
 
 CREATE_SQL = {"CreateCrime": "CREATE TABLE CRIMEFILE (CRIMEID INT, PEOPLEID varchar(32), LOCATIONID varchar(32), TYPEID INT, TIME INT)"}
 SELECT_SQL = {"SelectAll": "Select * from CRIMEFILE",
             "SelectByID": "Select * from CRIMEFILE where CRIMEID = %s"
               }
 INSERT_SQL = {"InsertALL": "INSERT INTO CRIMEFILE VALUES(%s, %s, %s, %s, %s)" }
+DROP_SQL = {"DropTable": "DROP TABLE CRIMEFILE"}
+
 
 def GetData():
     crimeDataList = []
@@ -24,8 +30,12 @@ def GetData():
     return crimeDataList
 
 def CreateTable(dbcon):
+    if checkTables.checkTableExists(dbcon, "CRIMEFILE"):
+        print("table already exists")
+        return
     dbcur = dbcon.cursor()
     sql = CREATE_SQL["CreateCrime"]
+
     try:
         dbcur.execute(sql)
         sqlQuery = "show tables"
@@ -35,8 +45,6 @@ def CreateTable(dbcon):
             print(row)
     except Exception as e:
         print("Exeception occured:{}".format(e))
-
-
 
 
 def SelectAll(dbcon):
@@ -85,10 +93,22 @@ def InsertData(dbcon):
     except Exception as e:
         print(e)
 
+def DropTable(dbcon):
+    sql = DROP_SQL["DropTable"]
+    try:
+        dbcur = dbcon.cursor()
+        dbcur.execute(sql)
+
+    except Exception as e:
+        print(e)
+        return None
+
 
 def TestCase(db, iCrimeID=0):
-    CreateTable(db)
-    InsertData(db)
-    result = SelectAll(db)
-    #result = SelectByID(db, iCrimeID)
-    return result
+    # CreateTable(db)
+    # InsertData(db)
+    # result = SelectAll(db)
+    # #result = SelectByID(db, iCrimeID)
+    # return result
+    DropTable(db)
+    return None
