@@ -15,7 +15,6 @@ def gdp():
     # insertGDPData(db)
     # print(checkTableExists(db,'gdp'))
     result = fetchAllFromGDP(db)
-    print(result)
     return result
 
 @app.route('/weathercnt', methods = ["GET"])
