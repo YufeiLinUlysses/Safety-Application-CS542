@@ -21,79 +21,11 @@ export default {
   components: {
     apexchart: VueApexCharts,
   },
-  props:["url","cols"],
+  props: ["url", "cols", "co"],
   data() {
     return {
       series: [],
-      chartOptions: {
-        chart: {
-          height: 350,
-          type: "line",
-          dropShadow: {
-            enabled: true,
-            color: "#000",
-            top: 18,
-            left: 7,
-            blur: 10,
-            opacity: 0.2,
-          },
-          toolbar: {
-            show: false,
-          },
-        },
-        colors: ["#77B6EA", "#545454","#D3D3D3"],
-        dataLabels: {
-          enabled: true,
-        },
-        stroke: {
-          curve: "smooth",
-        },
-        title: {
-          text: "Summary of Temperature",
-          align: "center",
-        },
-        grid: {
-          borderColor: "#e7e7e7",
-          row: {
-            colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
-            opacity: 0.5,
-          },
-        },
-        markers: {
-          size: 1,
-        },
-        xaxis: {
-          categories: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec",
-          ],
-          title: {
-            text: "Month",
-          },
-        },
-        yaxis: {
-          title: {
-            text: "Temperature(°C)",
-          },
-        },
-        legend: {
-          position: "top",
-          horizontalAlign: "right",
-          floating: true,
-          offsetY: -25,
-          offsetX: -5,
-        },
-      },
+      chartOptions: {}
     };
   },
   mounted() {
@@ -102,8 +34,9 @@ export default {
   methods: {
     getData: function () {
       var vm = this;
-      var url =this.url;
+      var url = this.url;
       var cols = this.cols;
+      var co = this.co;
       try {
         webcall.get(url).then(async function (response) {
           var temp = await JSON.parse(JSON.stringify(response.data));
@@ -120,6 +53,7 @@ export default {
             { name: "Average", data: avg },
             { name: "Min", data: min },
           ];
+          vm.chartOptions = co
         });
       } catch (err) {
         console.log("error");

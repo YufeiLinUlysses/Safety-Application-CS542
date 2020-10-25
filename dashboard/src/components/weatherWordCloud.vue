@@ -1,7 +1,7 @@
 <template>
   <div id="cloud">
-    <h3>Top 10 Most Frequent Weather in Boston</h3>
-    <cloud :data="weathers" :fontSizeMapper="fontSizeMapper" />
+    <h3 class="text-center">Top 10 Most Frequent Weather in Boston</h3>
+    <cloud :words="weathers"/>
   </div>
 </template>
 

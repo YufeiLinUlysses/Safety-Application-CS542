@@ -2,6 +2,7 @@ import pymysql
 import json
 import decimal
 
+
 class DB():
     db = None
 
@@ -16,7 +17,6 @@ class DB():
 
     def dropDB(self, sql):
         dbcur = self.db.cursor()
-        self.db.ping(reconnect=True)
         try:
             dbcur.execute(sql)
         except Exception as e:
@@ -24,10 +24,7 @@ class DB():
             return None
 
     def updataDB(self, uUpdate, uData=None):
-        try:
-            self.db.ping(reconnect=True)
-        except:
-            pass
+        pass
 
     def createDB(self, uCreate):
         dbcur = self.db.cursor()
@@ -42,7 +39,7 @@ class DB():
         except Exception as e:
             self.db.rollback()
             print("Exeception occured:{}".format(e))
-    
+
     def createV(self, uCreate):
         dbcur = self.db.cursor()
         sql = uCreate
@@ -71,13 +68,13 @@ class DB():
 
     def selectDB(self, uSelect, uData=None):
         sql = uSelect
-        self.db.ping(reconnect=True)
+        dbcur = self.db.cursor()
         try:
-            dbcur = self.db.cursor()
+            
             if uData == None:
                 dbcur.execute(sql)
             else:
-                dbcur.execute(sql,uData)
+                dbcur.execute(sql, uData)
             rows = dbcur.fetchall()
             columns = [desc[0] for desc in dbcur.description]
             result = []
@@ -86,9 +83,8 @@ class DB():
                 row = dict(zip(columns, row))
                 result.append(row)
             final = json.dumps(result)
-            self.db.commit()
             return final
         except Exception as e:
             self.db.rollback()
             print(e)
-            return None
+            return {"Exception": e}
