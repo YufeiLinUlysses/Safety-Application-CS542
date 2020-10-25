@@ -28,6 +28,7 @@ def GetData():
         iRow = 1
         csv_reader = csv.DictReader(csv_file, delimiter=',')
         for row in csv_reader:
+            #TODO: The reason why I break in line 7 because there is a file erro in line 8. Fix it later.
             if iRow > 7:
                 break
             typeDataList.append((row['CODE'], row['NAME'], 'N'))
