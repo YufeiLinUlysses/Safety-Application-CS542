@@ -1,7 +1,7 @@
 import json
 from flask import Flask, jsonify
 from Database.testDB import fetchAllFromGDP
-from dbconnection import DB
+from Database.dbconnection import DB
 from Database.envir import cntWeather
 import pymysql
 app = Flask(__name__)

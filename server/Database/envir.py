@@ -101,7 +101,7 @@ def cntWeather(dbcon):
         return {"Error": e}
 
 
-def avgWindSpeed(dbconn):
+def avgWindSpeed(dbcon):
     sql = SELECT_SQL["avgWS"]
     try:
         dbcur = dbcon.cursor()
