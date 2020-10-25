@@ -27,7 +27,7 @@ def precipitation():
     return result
 
 
-@app.route('/tM', methods=["GET"])
+@app.route('/temperature', methods=["GET"])
 def temperature():
     result = db.selectDB(envir.GetSQL("tM"))
     return result

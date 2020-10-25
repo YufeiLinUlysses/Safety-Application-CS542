@@ -1,22 +1,29 @@
 <template>
-  <div class="home">
-    <!-- <VIS /> -->
-    <!-- <MAP /> -->
+  <div>
     <WC />
+    <TLG :cols = "colsT" :url = "urlT"/>
+    <TLG :cols = "colsH" :url = "urlH"/>
+
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-// import VIS from "@/components/d3vis.vue";
-// import MAP from "@/components/d3map.vue";
-import WC from "@/components/weatherWordCloud.vue"
+import WC from "@/components/weatherWordCloud.vue";
+import TLG from "@/components/temperatureLine.vue";
 export default {
-  name: "Home",
+  name: "wa",
   components: {
-    // VIS,
-    // MAP,
     WC,
+    TLG,
   },
+  data(){
+    return{
+      urlT:"/temperature",
+      colsT:["minT","avgT","maxT"],
+      urlH:"/humidity",
+      colsH:["minH","avgH","maxH"],
+    }
+  }
 };
 </script>

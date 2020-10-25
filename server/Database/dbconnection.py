@@ -16,6 +16,7 @@ class DB():
 
     def dropDB(self, sql):
         dbcur = self.db.cursor()
+        self.db.ping(reconnect=True)
         try:
             dbcur.execute(sql)
         except Exception as e:
@@ -23,7 +24,10 @@ class DB():
             return None
 
     def updataDB(self, uUpdate, uData=None):
-        pass
+        try:
+            self.db.ping(reconnect=True)
+        except:
+            pass
 
     def createDB(self, uCreate):
         dbcur = self.db.cursor()
@@ -42,6 +46,7 @@ class DB():
     def createV(self, uCreate):
         dbcur = self.db.cursor()
         sql = uCreate
+        self.db.ping(reconnect=True)
         try:
             dbcur.execute(sql)
             sqlQuery = "show full tables"
@@ -56,6 +61,7 @@ class DB():
     def insertDB(self, uInsert, uData):
         insertData = uData
         sql = uInsert
+        self.db.ping(reconnect=True)
         try:
             dbcur = self.db.cursor()
             dbcur.executemany(sql, insertData)
@@ -65,6 +71,7 @@ class DB():
 
     def selectDB(self, uSelect, uData=None):
         sql = uSelect
+        self.db.ping(reconnect=True)
         try:
             dbcur = self.db.cursor()
             if uData == None:
@@ -79,6 +86,7 @@ class DB():
                 row = dict(zip(columns, row))
                 result.append(row)
             final = json.dumps(result)
+            self.db.commit()
             return final
         except Exception as e:
             self.db.rollback()
