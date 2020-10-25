@@ -16,15 +16,10 @@ DROP_SQL = {"DropTable": "DROP TABLE CRIMEFILE"}
 def GetData():
     crimeDataList = []
     with open('crime.csv') as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
-        line_count = 0
+        csv_reader = csv.DictReader(csv_file, delimiter=',')
+        line_count = 1
         for row in csv_reader:
-            if line_count == 0:
-                pass
-            elif line_count > 3:
-                break
-            else:
-                crimeDataList.append((line_count, "peopleName", row[13], int(row[1]), int(row[8])))
+            crimeDataList.append((line_count, "peopleName", row[13], int(row[1]), int(row[8])))
             line_count += 1
 
     return crimeDataList
@@ -112,3 +107,8 @@ def TestCase(db, iCrimeID=0):
     # return result
     DropTable(db)
     return None
+
+
+def GetSql():
+    pass
+

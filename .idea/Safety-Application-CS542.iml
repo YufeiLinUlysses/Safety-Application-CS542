@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/server" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/server/Database" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/server/Database/DataSource" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/server/Database/DataSource/Environment" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/server/Database/DataSource/Location" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/server/Database/DataSource/Person" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/server/Database/DataSource/CrimeFile" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/server/Database/DataSource/CrimeType" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/venv" />
+    </content>
+    <orderEntry type="jdk" jdkName="Python 3.8 (Safety-Application-CS542)" jdkType="Python SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="PyDocumentationSettings">
+    <option name="format" value="PLAIN" />
+    <option name="myDocStringFormat" value="Plain" />
+  </component>
+</module>

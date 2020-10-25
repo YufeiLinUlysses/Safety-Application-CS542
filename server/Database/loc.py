@@ -86,4 +86,3 @@ def InsertData(dbcon):
 #     result = SelectAllLocation(db)
 #     #result = SelectLocationId(db, iCrimeID)
 #     return result
-GetData()
