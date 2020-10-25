@@ -41,7 +41,6 @@ class DB():
             dbcur.executemany(sql, envData)
             self.db.commit()
         except Exception as e:
-            print("sdfzfzdf")
             print(e)
 
     def selectDB(self, uSelect):

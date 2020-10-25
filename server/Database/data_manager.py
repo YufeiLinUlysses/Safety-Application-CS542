@@ -11,6 +11,8 @@ import dbconnection
 def InitDataBase():
     oDatabase = dbconnection.DB("CRIMINALANALYSIS")
     #oDatabase.createDB(crime_type.GetSQL("CreateCrimeType"))
-    oDatabase.insertDB(crime_type.GetSQL("InsertALL2CrimeType"), crime_type.GetData())
+    #oDatabase.insertDB(crime_type.GetSQL("InsertALL2CrimeType"), crime_type.GetData())
+    oDatabase.createDB(loc.GetSQL("CREATELOCATION"))
+    oDatabase.insertDB(loc.GetSQL("INSERTALL"), loc.GetData())
 InitDataBase()
 
