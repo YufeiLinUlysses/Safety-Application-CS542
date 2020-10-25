@@ -13,8 +13,13 @@ class DB():
             port=3306
         )
 
-    def dropDB(self):
-        pass
+    def dropDB(self, sql):
+        dbcur = self.db.cursor()
+        try:
+            dbcur.execute(sql)
+        except Exception as e:
+            print(e)
+            return None
 
     def updataDB(self, uUpdate):
         pass
@@ -34,11 +39,11 @@ class DB():
             print("Exeception occured:{}".format(e))
 
     def insertDB(self, uInsert, uData):
-        envData = uData
+        insertData = uData
         sql = uInsert
         try:
             dbcur = self.db.cursor()
-            dbcur.executemany(sql, envData)
+            dbcur.executemany(sql, insertData)
             self.db.commit()
         except Exception as e:
             print(e)
