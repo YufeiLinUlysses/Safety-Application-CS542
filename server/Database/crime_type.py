@@ -16,7 +16,7 @@ CRIME_TYPE_SQL = {"CreateCrimeType": "CREATE TABLE CRIMETYPE (TYPEID INT primary
                   "SelectAllCrimeType": "Select * from CRIMETYPE",
                   "SelectCrimeTypeByCrimeID": "Select * from CRIMETYPE where TYPEID = %s",
                     "InsertALL2CrimeType": "INSERT INTO CRIMETYPE VALUES(%s, %s, %s)",
-"DropCrimeType": "DROP TABLE CRIMETYPE",
+"DropTable": "DROP TABLE IF EXISTS CRIMETYPE",
 "DeleteCrimeType": "DELETE FROM CRIMETYPE WHERE TYPEID = %s"
                   }
 

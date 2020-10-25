@@ -13,7 +13,7 @@ PEOPLE_SQL = {"CreatePerson": "CREATE TABLE PERSONFILE (pid INT PRIMARY KEY, gen
 "SelectAll": "Select * from PERSONFILE",
             "SelectByPID": "Select * from PERSONFILE where pid = %s",
 "InsertALL": "INSERT INTO PERSONFILE VALUES(%s, %s, %s, %s, %s, %s, %s)" ,
-"DropTable": "DROP TABLE PERSONFILE",
+"DropTable": "DROP TABLE IF EXISTS PERSONFILE",
 
 }
 

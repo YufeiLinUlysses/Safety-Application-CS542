@@ -3,7 +3,7 @@
 
 import json
 import csv
-import checkTables
+# import checkTables
 import os
 
 
@@ -16,9 +16,9 @@ CRIME_SQL = {"CreateCrime": """CREATE TABLE CRIMEFILE
             FOREIGN KEY (TYPEID) REFERENCES CRIMETYPE(TYPEID))
             """,
             "SelectByID": "Select * from CRIMEFILE where CRIMEID = %s",
-"InsertALL": "INSERT INTO CRIMEFILE VALUES(%s, %s, %s, %s)" ,
-"DropTable": "DROP TABLE CRIMEFILE"
-             }
+            "InsertALL": "INSERT INTO CRIMEFILE VALUES(%s, %s, %s, %s)" ,
+             "DropTable": "DROP TABLE IF EXISTS CRIMEFILE"
+            }
 
 
 def GetData():

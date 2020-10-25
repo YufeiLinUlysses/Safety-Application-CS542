@@ -23,4 +23,5 @@ result["sunrise"] = pd.to_datetime(
 result["sunset"] = pd.to_datetime(
     boston["sunset"], format="%I:%M %p").dt.round("H").dt.hour
 result["weather"] = boston["weatherDesc"].apply(lambda x: x[12:-3])
+result["precipitation"] = boston["precipMM"]
 result.to_csv('bosFinal.csv', index = False)

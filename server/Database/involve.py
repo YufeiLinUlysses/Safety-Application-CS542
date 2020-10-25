@@ -19,8 +19,8 @@ INVOLVE_SQL = {"CreateInvolve": """CREATE TABLE INVOLVE
                 """,
                "SelectAll": "Select * from INVOLVE",
                "SelectByPIDcrimeID": "Select * from INVOLVE where pID = %s and crimeID = %s",
-"InsertALL": "INSERT INTO INVOLVE VALUES(%s, %s, %s)" ,
-"DropTable": "DROP TABLE INVOLVE",
+               "InsertALL": "INSERT INTO INVOLVE VALUES(%s, %s, %s)" ,
+               "DropTable": "DROP TABLE IF EXISTS INVOLVE",
                }
 
 
