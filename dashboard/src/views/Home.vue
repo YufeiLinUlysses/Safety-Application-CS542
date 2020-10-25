@@ -2,21 +2,21 @@
   <div class="home">
     <!-- <VIS /> -->
     <!-- <MAP /> -->
-    <WC />
+    <b-row>
+      <b-col></b-col>
+      <b-col><BM /></b-col>
+      <b-col></b-col>
+    </b-row>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-// import VIS from "@/components/d3vis.vue";
-// import MAP from "@/components/d3map.vue";
-import WC from "@/components/weatherWordCloud.vue"
+import BM from "@/components/graphs/map.vue";
 export default {
   name: "Home",
   components: {
-    // VIS,
-    // MAP,
-    WC,
+    BM,
   },
 };
 </script>

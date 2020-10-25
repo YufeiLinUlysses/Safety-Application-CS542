@@ -1,5 +1,6 @@
 # Using World Weather Online and wwo-hist for downloading data
 # Table explained here: https://www.worldweatheronline.com/developer/api/docs/local-city-town-weather-api.aspx
+# Consider to add precipitation for data analysis later
 from datetime import datetime
 import urllib
 import urllib.request

@@ -1,65 +1,60 @@
 <template>
-  <div id="app">
-    <v-app id="inspire">
-      <v-toolbar>
-        <v-toolbar-side-icon></v-toolbar-side-icon>
-        <v-toolbar-title>Title</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-toolbar-items class="hidden-sm-and-down">
-          <v-btn flat>Link One</v-btn>
-          <v-btn flat>Link Two</v-btn>
-          <v-menu offset-y>
-            <template v-slot:activator="{ on }">
-              <v-btn dark icon v-on="on">
-                <v-icon color="primary">notifications</v-icon>
-              </v-btn>
-            </template>
-            <v-card>
-              <v-list dense>
-                <v-subheader>Notifications</v-subheader>
-                <v-divider></v-divider>
-                <v-list-tile
-                  v-for="notification in notifications"
-                  :key="`notification-key-${notification.id}`"
-                >
-                  <v-list-tile-title>
-                    {{ notification.title }}
-                  </v-list-tile-title>
-                </v-list-tile>
-              </v-list>
-            </v-card>
-          </v-menu>
-        </v-toolbar-items>
-      </v-toolbar>
-    </v-app>
+  <div>
+    <b-navbar toggleable="lg" type="dark" variant="dark">
+      <b-navbar-brand href="#" @click="goto('Home')">
+        Safety Application
+      </b-navbar-brand>
+
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <b-nav-item href="#" disabled>For People in Boston</b-nav-item>
+        </b-navbar-nav>
+
+        <!-- Right aligned nav items -->
+        <b-navbar-nav class="ml-auto">
+          <b-nav-form>
+            <b-form-input
+              size="sm"
+              class="mr-sm-2"
+              placeholder="Search"
+            ></b-form-input>
+            <b-button size="sm" class="my-2 my-sm-0" type="submit"
+              >Search</b-button
+            >
+          </b-nav-form>
+          <b-nav-item @click="goto('About')">About</b-nav-item>
+          <!-- If want to replace with more fancy writing 
+            <template #button-content>
+              <em>User</em>
+            </template> -->
+          <b-nav-item-dropdown text="Analysis" right>
+            <b-dropdown-item @click="goto('WA')"
+              >Weather Analysis</b-dropdown-item
+            >
+            <b-dropdown-item @click="goto('CA')"
+              >Crime Analysis</b-dropdown-item
+            >
+          </b-nav-item-dropdown>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
   </div>
 </template>
 
 <script>
-// import MENU from "./menu.vue";
 export default {
-  // components: {
-  //   MENU,
-  // },
-  data: () => ({
-    notifications: [
-      { id: 1, title: "Click Me" },
-      { id: 2, title: "Click Me" },
-      { id: 3, title: "Click Me" },
-      { id: 4, title: "Click Me 2" },
-    ],
-  }),
   methods: {
-    goHome: function () {
-      this.$router.push({ name: "Home" });
+    goto: function (page) {
+      this.$router.push({ name: page });
     },
   },
 };
 </script>
 
 <style scoped>
-.titleLabel {
-  text-transform: none !important;
+.navbar.navbar-dark.bg-dark {
+  background-color: #557cbb !important;
 }
 </style>
-

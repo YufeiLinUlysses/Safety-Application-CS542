@@ -17,7 +17,16 @@ CREATE_SQL = {"CreateEnv": '''CREATE TABLE ENVIRONMENT(
     PRIMARY KEY(WDATE, HOUR))'''}
 
 SELECT_SQL = {"SelectAll": "Select * from ENVIRONMENT",
-              "CntWeather": "(SELECT Weather AS text, COUNT(*) AS value FROM ENVIRONMENT group by weather) ORDER BY value DESC"}
+              "CntWeather": '''(SELECT WEATHER AS text, COUNT(*) AS value 
+                                FROM ENVIRONMENT 
+                                GROUP BY WEATHER) 
+                                ORDER BY value DESC''',
+              "avgWS": '''SELECT 
+                            MONTH(FROM_UNIXTIME(WDATE)) AS m, 
+                            AVG(WINDSPEED) AS avgWS 
+                          FROM ENVIRONMENT 
+                          GROUP BY MONTH(FROM_UNIXTIME(WDATE))
+              '''}
 INSERT_SQL = {"InsertALL": '''INSERT INTO ENVIRONMENT VALUES
                             (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'''}
 
@@ -73,6 +82,7 @@ def InsertData(dbcon):
     except Exception as e:
         print(e)
 
+
 def cntWeather(dbcon):
     sql = SELECT_SQL["CntWeather"]
     try:
@@ -88,4 +98,22 @@ def cntWeather(dbcon):
         return final
     except Exception as e:
         print(e)
-        return {"Error":e}
+        return {"Error": e}
+
+
+def avgWindSpeed(dbconn):
+    sql = SELECT_SQL["avgWS"]
+    try:
+        dbcur = dbcon.cursor()
+        dbcur.execute(sql)
+        rows = dbcur.fetchall()
+        columns = [desc[0] for desc in dbcur.description]
+        result = []
+        for row in rows:
+            row = dict(zip(columns, row))
+            result.append(row)
+        final = json.dumps(result)
+        return final
+    except Exception as e:
+        print(e)
+        return {"Error": e}

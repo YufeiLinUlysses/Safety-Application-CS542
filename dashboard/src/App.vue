@@ -1,5 +1,8 @@
 <template>
+  <b-container fluid>
     <MAIN />
+    <router-view />
+  </b-container>
 </template>
 
 <script>
