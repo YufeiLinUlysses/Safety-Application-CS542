@@ -27,10 +27,12 @@ def GetData():
     with open(actualPath) as csv_file:
         iRow = 1
         csv_reader = csv.DictReader(csv_file, delimiter=',')
+        idList = []
         for row in csv_reader:
-            #TODO: The reason why I break in line 7 because there is a file erro in line 8. Fix it later.
-            if iRow > 7:
-                break
+            #TODO: Change in trigger
+            if int(row['CODE']) in idList:
+                continue
+            idList.append(int(row['CODE']))
             typeDataList.append((int(row['CODE']), row['NAME'], 'N'))
             iRow += 1
     return typeDataList
