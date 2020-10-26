@@ -39,6 +39,24 @@ def windSpeed():
     result = db.selectDB(envir.GetSQL("wsM"))
     return result
 
+@app.route('/location', methods = ["GET"])
+def location():
+	db = DB("CRIMINALANALYSIS")
+	result = db.selectDB(loc.GetSQL('SelectLocation'))
+	return result
+
+@app.route('/street', methods = ['GET'])
+def street():
+	db = DB('CRIMINALANALYSIS')
+	result = db.selectDB(loc.GetSQL('streetCount'))
+	return result
+
+@app.route('/district', methods = ['GET'])
+def district():
+	db = DB('CRIMINALANALYSIS')
+	result = db.selectDB(loc.GetSQL('districtCount'))
+	return result
+
 
 if __name__ == "__main__":
     app.run(debug=True)

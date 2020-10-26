@@ -53,6 +53,6 @@ def InitDataBase():
 
 
 
-# InitDataBase()
+InitDataBase()
 test()
 

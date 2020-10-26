@@ -9,7 +9,7 @@ def checkTableExists(dbcon, tableName):
         dbcur = dbcon.cursor()
         dbcur.execute(sql, (value,))
         if dbcur.fetchone()[0] == 1:
-            return True
+            print('good')
         return False
     except Exception as e:
         print(e)
