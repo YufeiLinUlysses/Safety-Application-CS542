@@ -18,48 +18,63 @@ def GetCrimeCases():
     print(oDatabase.selectDB(crime_file.GetSql("ColumnNumber")))
 
 def InitDataBase():
-    pass
+    #sequence is important here because we have foreign key constraint.
+    try:
+        oDatabase.dropDB(involve.GetSQL("DropTable"))
+    except:
+        print("involve not dropped")
+    try:
+        oDatabase.dropDB(crime_file.GetSql("DropTable"))
+    except:
+        print("crime_file not dropped")
+    try:
+        oDatabase.dropDB(person_file.GetSQL("DropTable"))
+    except:
+        print("person_file not dropped")
+    try:
+        oDatabase.dropDB(envir.GetSQL("DropTable"))
+    except:
+        print("envir not dropped")
+    try:
+        oDatabase.dropDB(loc.GetSQL("DropTable"))
+    except:
+        print("loc not dropped")
+    try:
+        oDatabase.dropDB(crime_type.GetSQL("DropTable"))
+    except:
+        print("crime_type not dropped")
+
     # Init for Crime Type
-    # try:
-    #     oDatabase.dropDB(crime_type.GetSQL("DropTable"))
-    #     oDatabase.createDB(crime_type.GetSQL("CreateCrimeType"))
-    #     oDatabase.insertDB(crime_type.GetSQL("InsertALL2CrimeType"), crime_type.GetData())
-    # except:
-    #     pass
+    oDatabase.createDB(crime_type.GetSQL("CreateCrimeType"))
+    oDatabase.insertDB(crime_type.GetSQL("InsertALL2CrimeType"), crime_type.GetData())
+    #
     #
     # Init for Location
-    # oDatabase.dropDB(loc.GetSQL("DropTable"))
-    # oDatabase.createDB(loc.GetSQL("CREATELOCATION"))
-    # oDatabase.insertDB(loc.GetSQL("INSERTALL"), loc.GetData())
+    oDatabase.createDB(loc.GetSQL("CREATELOCATION"))
+    oDatabase.insertDB(loc.GetSQL("INSERTALL"), loc.GetData())
 
     # Init for Environment
-    # oDatabase.dropDB(envir.GetSQL("DropTable"))
-    # oDatabase.createDB(envir.GetSQL("CreateEnv"))
-    # oDatabase.insertDB(envir.GetSQL("InsertALL"), envir.GetData())
+    oDatabase.createDB(envir.GetSQL("CreateEnv"))
+    oDatabase.insertDB(envir.GetSQL("InsertALL"), envir.GetData())
     #
     # Init for Person
-    # oDatabase.dropDB(person_file.GetSQL("DropTable"))
-    # oDatabase.createDB(person_file.GetSQL("CreatePerson"))
-    # oDatabase.insertDB(person_file.GetSQL("InsertALL"), person_file.GetData())
+    oDatabase.createDB(person_file.GetSQL("CreatePerson"))
+    oDatabase.insertDB(person_file.GetSQL("InsertALL"), person_file.GetData())
     #
     # Init for Crime File
-    # try:
-    #     oDatabase.dropDB(crime_file.GetSql("DropTable"))
-    #     oDatabase.createDB(crime_file.GetSql("CreateCrime"))
-    #     #oDatabase.insertDB(crime_file.GetSql("InsertALL"), crime_file.GetData())
-    #     oDatabase.insertDB(crime_file.GetSql("InsertALLIgnore"), crime_file.GetData())
-    # except:
-    #     pass
+    oDatabase.createDB(crime_file.GetSql("CreateCrime"))
+    #oDatabase.insertDB(crime_file.GetSql("InsertALL"), crime_file.GetData())
+    oDatabase.insertDB(crime_file.GetSql("InsertALLIgnore"), crime_file.GetData())
+
     #
     # # Init for Involve
-    # oDatabase.dropDB(involve.GetSQL("DropTable"))
-    # oDatabase.createDB(involve.GetSQL("CreateInvolve"))
-    # oDatabase.insertDB(involve.GetSQL("InsertALL"), involve.GetData())
+    oDatabase.createDB(involve.GetSQL("CreateInvolve"))
+    oDatabase.insertDB(involve.GetSQL("InsertALL"), involve.GetData())
 
 
 
 
 
-#InitDataBase()
+InitDataBase()
 # test()
-GetCrimeCases()
+#GetCrimeCases()
