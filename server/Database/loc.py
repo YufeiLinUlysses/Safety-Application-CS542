@@ -41,7 +41,8 @@ def GetData():
 	locData = []
 	with open(actualPath) as f:
 		f.readline()
-		locData = [tuple(line) for line in csv.reader(f)]
+		locData = ([tuple(line) for line in csv.reader(f)])
+
 	return locData
 
 

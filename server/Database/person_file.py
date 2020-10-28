@@ -25,13 +25,18 @@ def GetData():
     with open(actualPath) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
+        pidList = []
         for row in csv_reader:
             if line_count == 0:
-                pass
-            elif line_count > 7:
+                line_count += 1
+                continue
+            if int(row[0]) in pidList:
+                continue
+            if line_count > 30000:
                 break
-            else:
-                personDataList.append((int(row[0]), row[1], row[2], row[3], row[4], row[5], row[6])) # correspond to (pid INT, gender Char(1), BirthDate Date, race varchar(55), tool varchar(25), KnowsEachOther Char(1), Job Char(65))
+            pidList.append(int(row[0]))
+
+            personDataList.append((int(row[0]), row[1], row[2], row[3], row[4], row[5], row[6])) # correspond to (pid INT, gender Char(1), BirthDate Date, race varchar(55), tool varchar(25), KnowsEachOther Char(1), Job Char(65))
             line_count += 1
 
     return personDataList
