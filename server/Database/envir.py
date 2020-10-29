@@ -78,7 +78,22 @@ ENV_SQL = {"CreateEnv": """CREATE TABLE ENVIRONMENT(
                             MIN(avgP) AS minP
                           FROM SUMMARY 
                           GROUP BY MONTH(FROM_UNIXTIME(WDATE))''',
-             
+             # weather - crime
+             "wC": '''(SELECT  W As weather, COUNT(T) AS value FROM 
+                      (SELECT DISTINCT CRIMEFILE.TYPEID AS T, 
+                                       ENVIRONMENT.WEATHER AS W 
+                      FROM CRIMEFILE
+                      JOIN ENVIRONMENT 
+                      ON CRIMEFILE.TIMESTAMP=ENVIRONMENT.WDATE) TEMP
+                      GROUP BY W )
+                      ORDER BY value DESC LIMIT 15;''',
+             # humidity - crime
+             "hC": '''SELECT COUNT(T) AS count, HUMIDITY AS humidity
+                      FROM (SELECT DISTINCT TYPEID AS T, HUMIDITY 
+                            FROM CRIMEFILE 
+                            JOIN ENVIRONMENT 
+                            ON CRIMEFILE.TIMESTAMP=ENVIRONMENT.WDATE) TEMP 
+                      GROUP BY HUMIDITY;''',
              }
 
 

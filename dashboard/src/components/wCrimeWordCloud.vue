@@ -1,6 +1,6 @@
 <template>
   <div id="cloud">
-    <h3 class="text-center">Top 10 Most Frequent Weather in Boston</h3>
+    <h3 class="text-center">Top 10 Weather with Most Crimes in Boston</h3>
     <cloud :words="weathers" :nameK="temp[0]" :valueK="temp[1]"/>
   </div>
 </template>
@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       weathers: [],
-      temp:["text","value"],
+      temp:["weather","value"],
       fontSizeMapper: (word) => Math.log2(word.value) * 5,
     };
   },
@@ -34,12 +34,11 @@ export default {
   methods: {
     createGraph() {
       var vm = this;
-      var url = "/weathercnt";
+      var url = "/weatherCrime";
       try {
         webcall.get(url).then(async function (response) {
           var temp = await JSON.parse(JSON.stringify(response.data));
-          vm.weathers = await temp.slice(0,12);
-          console.log(vm.weathers)
+          vm.weathers = temp;
         });
       } catch (err) {
         console.log("error");

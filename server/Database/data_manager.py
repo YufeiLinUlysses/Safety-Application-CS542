@@ -75,6 +75,6 @@ def InitDataBase():
 
 
 
-InitDataBase()
-# test()
-#GetCrimeCases()
+# InitDataBase()
+test()
+# GetCrimeCases()

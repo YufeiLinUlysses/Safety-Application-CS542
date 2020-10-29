@@ -1,12 +1,13 @@
 <template>
-  <div id="cloud">
-    <h3 class="text-center">Top 10 Most Frequent Weather in Boston</h3>
-    <cloud :words="weathers" :nameK="temp[0]" :valueK="temp[1]"/>
-  </div>
+  <apexchart
+    type="line"
+    height="350"
+    :options="chartOptions"
+    :series="series"
+  ></apexchart>
 </template>
-
 <script>
-import Cloud from "@/components/graphs/cloud.vue";
+import VueApexCharts from "vue-apexcharts";
 import axios from "axios";
 
 var webcall = axios.create({
@@ -17,29 +18,36 @@ var webcall = axios.create({
 });
 
 export default {
-  name: "app",
   components: {
-    Cloud,
+    apexchart: VueApexCharts,
   },
+  props: ["url", "co", "name"],
   data() {
     return {
-      weathers: [],
-      temp:["text","value"],
-      fontSizeMapper: (word) => Math.log2(word.value) * 5,
+      series: [],
+      chartOptions: {},
     };
   },
   mounted() {
-    this.createGraph();
+    this.getData();
   },
   methods: {
-    createGraph() {
+    getData: function () {
       var vm = this;
-      var url = "/weathercnt";
+      var url = this.url;
+      var co = this.co;
       try {
         webcall.get(url).then(async function (response) {
           var temp = await JSON.parse(JSON.stringify(response.data));
-          vm.weathers = await temp.slice(0,12);
-          console.log(vm.weathers)
+          var data = []
+          for(var m of temp){
+              data.push(m["humidity"])
+          }
+          vm.series = [{
+              name:vm.name,
+              data:data
+          }];
+          vm.chartOptions = co;
         });
       } catch (err) {
         console.log("error");

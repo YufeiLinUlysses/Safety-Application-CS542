@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import WA from '../views/WeatherAnalysis.vue'
+import CA from '../views/CriminalAnalysis.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -22,6 +24,11 @@ const routes = [
     path: '/weatherAnalysis',
     name: 'WA',
     component: WA
+  },
+  {
+    path: '/crimeAnalysis',
+    name: 'CA',
+    component: CA
   },
 ]
 

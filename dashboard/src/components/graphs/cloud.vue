@@ -2,8 +2,8 @@
   <div id="app">
       <wordcloud
       :data="words"
-      nameKey="text"
-      valueKey="value"
+      :nameKey="nameK"
+      :valueKey="valueK"
       :color="myColors"
       :showTooltip="true"
       :wordClick="wordClickHandler">
@@ -24,7 +24,7 @@ export default {
       console.log('wordClickHandler', name, value, vm);
     }
   },
-  props:["words"],
+  props:["words", "nameK","valueK"],
   data() {
     return {
       myColors: ['#1f77b4', '#629fc9', '#94bedb', '#c9e0ef'],
