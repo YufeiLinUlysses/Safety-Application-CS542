@@ -13,15 +13,29 @@ CRIME_SQL = {"CreateCrime": """CREATE TABLE CRIMEFILE
             LOCATIONID INT,
             TYPEID INT,
             TIMESTAMP INT,
+            TIMESLOT INT,
             FOREIGN KEY (LOCATIONID) REFERENCES LOCATION(LOCATIONID),
             FOREIGN KEY (TYPEID) REFERENCES CRIMETYPE(TYPEID),
-            FOREIGN KEY (TIMESTAMP) REFERENCES ENVIRONMENT(WDATE))
+            FOREIGN KEY (TIMESTAMP, TIMESLOT) REFERENCES ENVIRONMENT(WDATE, HOUR))
             """,
             "SelectByID": "Select * from CRIMEFILE where CRIMEID = %s",
-            "InsertALL": "INSERT INTO CRIMEFILE VALUES(%s, %s, %s, %s)" ,
-            "InsertALLIgnore": "INSERT Ignore INTO CRIMEFILE VALUES(%s, %s, %s, %s)" ,
+            "InsertALL": "INSERT INTO CRIMEFILE VALUES(%s, %s, %s, %s, %s)" ,
+            "InsertALLIgnore": "INSERT Ignore INTO CRIMEFILE VALUES(%s, %s, %s, %s, %s)" ,
              "DropTable": "DROP TABLE IF EXISTS CRIMEFILE",
-             "ColumnNumber": "SELECT COUNT(*) FROM CRIMEFILE"
+             "ColumnNumber": "SELECT COUNT(*) FROM CRIMEFILE",
+
+             "TimeSlotTrigger": """
+             
+                CREATE TRIGGER TimeSlotInsert
+                BEFORE INSERT
+                ON CRIMEFILE FOR EACH ROW
+                Begin
+                If (New.TIMESLOT not in (0, 3, 6, 9, 12, 15, 18, 21)) Then
+                   SET NEW.TIMESLOT = ((new.TIMESLOT div 3) * 3);
+                end if;
+                END
+             """,
+             "DropSlotTrigger": "drop trigger if exists TimeSlotInsert",
 
             }
 
@@ -33,7 +47,7 @@ def GetData():
     with open(actualPath) as csv_file:
         csv_reader = csv.DictReader(csv_file, delimiter=',')
         for row in csv_reader:
-            crimeDataList.append((int(row["CRIME_NUMBER"]), int(row["LOC_ID"]), int(row["CRIME_TYPE"]), int(row["CRIME_TIME"]))) #as in crime id, loc id, typeID, timeStamp
+            crimeDataList.append((int(row["CRIME_NUMBER"]), int(row["LOC_ID"]), int(row["CRIME_TYPE"]), int(row["CRIME_TIME"]), int(row["HOUR"]))) #as in crime id, loc id, typeID, timeStamp
 
     return crimeDataList
 

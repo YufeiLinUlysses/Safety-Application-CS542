@@ -88,3 +88,12 @@ class DB():
             self.db.rollback()
             print(e)
             return {"Exception": e}
+
+    def CreateTrigger(self, sSql):
+        self.db.ping(reconnect=True)
+        try:
+            dbcur = self.db.cursor()
+            dbcur.execute(sSql)
+            self.db.commit()
+        except Exception as e:
+            print(e)
