@@ -33,7 +33,7 @@ def GetData():
     with open(actualPath) as csv_file:
         csv_reader = csv.DictReader(csv_file, delimiter=',')
         for row in csv_reader:
-            crimeDataList.append((int(row["CRIME_NUMBER"]), 1, int(row["CRIME_TYPE"]), int(row["CRIME_TIME"]))) #as in crime id, loc id, typeID, timeStamp
+            crimeDataList.append((int(row["CRIME_NUMBER"]), int(row["LOC_ID"]), int(row["CRIME_TYPE"]), int(row["CRIME_TIME"]))) #as in crime id, loc id, typeID, timeStamp
 
     return crimeDataList
 

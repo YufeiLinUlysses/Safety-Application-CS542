@@ -24,7 +24,7 @@ def GetData():
     typeDataList = []
     script_dir = os.path.dirname(__file__)
     actualPath = os.path.join(script_dir, "DataSource/CrimeType/offense_codes.csv")
-    with open(actualPath) as csv_file:
+    with open(actualPath, encoding="gbk") as csv_file:
         iRow = 1
         csv_reader = csv.DictReader(csv_file, delimiter=',')
         idList = []

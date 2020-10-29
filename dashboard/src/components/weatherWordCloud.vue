@@ -1,7 +1,7 @@
 <template>
   <div id="cloud">
     <h3 class="text-center">Top 10 Most Frequent Weather in Boston</h3>
-    <cloud :words="weathers"/>
+    <cloud :words="weathers" :nameK="temp[0]" :valueK="temp[1]"/>
   </div>
 </template>
 
@@ -24,6 +24,7 @@ export default {
   data() {
     return {
       weathers: [],
+      temp:["text","value"],
       fontSizeMapper: (word) => Math.log2(word.value) * 5,
     };
   },
@@ -37,7 +38,7 @@ export default {
       try {
         webcall.get(url).then(async function (response) {
           var temp = await JSON.parse(JSON.stringify(response.data));
-          vm.weathers = await temp.slice(0,10);
+          vm.weathers = await temp.slice(0,12);
           console.log(vm.weathers)
         });
       } catch (err) {

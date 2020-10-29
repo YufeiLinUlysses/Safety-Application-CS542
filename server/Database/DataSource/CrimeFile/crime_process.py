@@ -11,5 +11,7 @@ result["CRIME_TYPE"] = crime["OFFENSE_CODE"]
 
 result["CRIME_NUMBER"] = numpy.arange(1, len(result)+1)
 
+locFK = pandas.read_csv('ForeignKeyLoc.csv')
+result["LOC_ID"] = locFK["location_id"]
 
 result.to_csv('finalcrime.csv', index=False)
