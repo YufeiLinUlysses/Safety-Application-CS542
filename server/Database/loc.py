@@ -37,7 +37,7 @@ LOC_SQL = {'CREATELOCATION': '''CREATE TABLE LOCATION (
 #copy from yufei
 def GetData():
 	script_dir = os.path.dirname(__file__)
-	actualPath = os.path.join(script_dir, "DataSource/Location/location.csv")
+	actualPath = os.path.join(script_dir, "DataSource/Location/loc.csv")
 	locData = []
 	with open(actualPath) as f:
 		f.readline()
