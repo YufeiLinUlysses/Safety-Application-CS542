@@ -94,6 +94,12 @@ ENV_SQL = {"CreateEnv": """CREATE TABLE ENVIRONMENT(
                             JOIN ENVIRONMENT 
                             ON CRIMEFILE.TIMESTAMP=ENVIRONMENT.WDATE) TEMP 
                       GROUP BY HUMIDITY;''',
+             # temperature - crime
+             "tC": '''SELECT AVGT AS temp, COUNT(*) AS count 
+                      FROM SUMMARY 
+                      JOIN CRIMEFILE 
+                      ON WDATE = TIMESTAMP 
+                      GROUP BY AVGT''',
              }
 
 

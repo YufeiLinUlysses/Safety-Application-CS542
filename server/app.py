@@ -72,5 +72,13 @@ def humCr():
     db = DB("CRIMINALANALYSIS")
     result = db.selectDB(envir.GetSQL("hC"))
     return result
+
+
+@app.route('/tempCrime', methods=['GET'])
+def tempCr():
+    db = DB("CRIMINALANALYSIS")
+    result = db.selectDB(envir.GetSQL("tC"))
+    return result
+
 if __name__ == "__main__":
     app.run(debug=True)

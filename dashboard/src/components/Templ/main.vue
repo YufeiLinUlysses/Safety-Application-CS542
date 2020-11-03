@@ -24,6 +24,7 @@
               >Search</b-button
             >
           </b-nav-form>
+          <v-spacer />
           <b-nav-item @click="goto('About')">About</b-nav-item>
           <!-- If want to replace with more fancy writing 
             <template #button-content>

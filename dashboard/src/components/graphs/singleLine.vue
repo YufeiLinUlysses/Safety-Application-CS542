@@ -41,8 +41,9 @@ export default {
           var temp = await JSON.parse(JSON.stringify(response.data));
           var data = []
           for(var m of temp){
-              data.push(m["humidity"])
+              data[m["humidity"]] = m["count"]
           }
+          console.log(data)
           vm.series = [{
               name:vm.name,
               data:data
