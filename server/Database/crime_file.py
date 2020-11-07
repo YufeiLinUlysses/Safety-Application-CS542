@@ -37,6 +37,13 @@ CRIME_SQL = {"CreateCrime": """CREATE TABLE CRIMEFILE
              """,
              "DropSlotTrigger": "drop trigger if exists TimeSlotInsert",
 
+             "SelectCrimeByLoc": """Select C.CRIMEID, T.DESCRIPTION, L.STREET, L.LAT, L.LON
+             from CRIMEFILE C, LOCATION L, CRIMETYPE T 
+             where C.LOCATIONID = L.LOCATIONID and C.TYPEID = T.TYPEID and 
+             L.LAT > (%s -0.0005) and L.LAT < (%s + 0.0005) and L.LON > (%s -0.0005) and L.LON < (%s + 0.0005) 
+             
+             """
+
             }
 
 

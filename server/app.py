@@ -80,5 +80,14 @@ def tempCr():
     result = db.selectDB(envir.GetSQL("tC"))
     return result
 
+@app.route('/crimeLocAnalysize', methods=['GET'])
+def tempCr():
+    db = DB("CRIMINALANALYSIS")
+    result = db.selectDB(envir.GetSQL("tC"))
+    return result
+
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
