@@ -12,7 +12,11 @@ import envir
 oDatabase = dbconnection.DB("CRIMINALANALYSIS")
 
 def test():
-    print(oDatabase.createV(envir.GetSQL("createViewSum")))
+    print(GetCrimeFileByLoc(42.2762, -71.0955))
+
+def GetCrimeFileByLoc(sLat, sLon):
+    sSql = crime_file.GetSql("SelectCrimeByLoc")
+    return oDatabase.selectDB(sSql, (sLat, sLat, sLon, sLon))
 
 def GetCrimeCases():
     print(oDatabase.selectDB(crime_file.GetSql("ColumnNumber")))
@@ -83,7 +87,7 @@ def InitDataBase():
 
 
 #InitDataBase()
-# test()
-GetCrimeCases()
+test()
+# GetCrimeCases()
 
 
