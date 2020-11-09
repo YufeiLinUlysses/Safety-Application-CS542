@@ -1,10 +1,11 @@
 <template>
   <div id="app">
-    <GChart      
-      type="BubbleChart"
+    <GChart
+      :settings="settings"
+      type="GeoChart"
       :data="chartData"
       :options="chartOptions"
-      style="width: 900px; height: 500px;"
+      style="width: 900px; height: 500px"
     />
   </div>
 </template>
@@ -14,25 +15,36 @@ import { GChart } from "vue-google-charts";
 export default {
   name: "App",
   components: {
-    GChart
+    GChart,
   },
   data() {
     return {
       // Array will be automatically processed with visualization.arrayToDataTable function
+      settings: {
+        packages: ["geochart"],
+        mapsApiKey: "AIzaSyCESDQdWk4BVXVLLwkKQijvexrPnU6UkAk",
+      },
       chartData: [
-        ["ID", "X", "Y", "Temperature"],
-        ["", 80, 167, 120],
-        ["", 79, 136, 130],
-        ["", 78, 184, 50],
-        ["", 72, 278, 230],
-        ["", 81, 200, 210],
-        ["", 72, 170, 100],
-        ["", 68, 477, 80]
+        ["City", "Population", "Area"],
+        ["", 2761477, 1285.31],
+        ["Worcester", 1324110, 181.76],
+        ["Naples", 959574, 117.27],
+        ["Turin", 907563, 130.17],
+        ["Palermo", 655875, 158.9],
+        ["Genoa", 607906, 243.6],
+        ["Bologna", 380181, 140.7],
+        ["Florence", 371282, 102.41],
+        ["Fiumicino", 67370, 213.44],
+        ["Anzio", 52192, 43.43],
+        ["Ciampino", 38262, 11],
       ],
       chartOptions: {
-        colorAxis: { colors: ["yellow", "red"] }
-      }
+        region: 'US-MA',
+        displayMode: 'regions',
+        resolution: 'metros',
+        colorAxis: {colors: ['green', 'blue']}
+      },
     };
-  }
+  },
 };
 </script>
