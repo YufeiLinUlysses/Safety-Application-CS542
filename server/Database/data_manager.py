@@ -24,6 +24,8 @@ def GetCrimeCases():
 def CreateCrimeTimeTrigger():
     oDatabase.CreateTrigger(crime_file.GetSql("TimeSlotTrigger"))
 
+def CreateEnvView():
+    oDatabase.createV(envir.GetSQL("createViewSum"))
 
 
 def InitDataBase():
@@ -87,7 +89,8 @@ def InitDataBase():
 
 
 #InitDataBase()
-test()
+# test()
 # GetCrimeCases()
+CreateEnvView()
 
 
