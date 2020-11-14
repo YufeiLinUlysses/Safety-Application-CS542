@@ -10,6 +10,14 @@ import Chartkick from 'vue-chartkick'
 import Chart from 'chart.js'
 import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
+import * as VueGoogleMaps from "vue2-google-maps";
+
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: "AIzaSyCESDQdWk4BVXVLLwkKQijvexrPnU6UkAk",
+    libraries: "places"
+  }
+});
 
 Vue.component('l-map', LMap);
 Vue.component('l-tile-layer', LTileLayer);

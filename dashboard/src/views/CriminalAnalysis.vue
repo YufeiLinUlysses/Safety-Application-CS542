@@ -22,8 +22,8 @@
         <line-chart :data="result"></line-chart>
       </b-col>
       <b-col align-self="center">
-        <!-- <WC /> -->
         <MAP />
+        <BarChart />
       </b-col>
       <b-col> </b-col>
     </b-row>
@@ -34,6 +34,7 @@
 // @ is an alias to /src
 // import WC from "@/components/wCrimeWordCloud.vue";
 import MAP from "@/components/map.vue";
+import BarChart from "@/components/Barchart.vue";
 import axios from "axios";
 
 var webcall = axios.create({
@@ -46,8 +47,8 @@ var webcall = axios.create({
 export default {
   name: "ca",
   components: {
-    // WC,
-    MAP
+    BarChart,
+    MAP,
   },
   data() {
     return {
