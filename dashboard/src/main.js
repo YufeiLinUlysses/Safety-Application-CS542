@@ -8,7 +8,12 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Chartkick from 'vue-chartkick'
 import Chart from 'chart.js'
+import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
+import 'leaflet/dist/leaflet.css';
 
+Vue.component('l-map', LMap);
+Vue.component('l-tile-layer', LTileLayer);
+Vue.component('l-marker', LMarker);
 Vue.use(Chartkick.use(Chart))
 Vue.config.productionTip = false
 Vue.use(IconsPlugin)

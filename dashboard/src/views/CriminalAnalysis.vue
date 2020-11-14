@@ -22,7 +22,8 @@
         <line-chart :data="result"></line-chart>
       </b-col>
       <b-col align-self="center">
-        <WC />
+        <!-- <WC /> -->
+        <MAP />
       </b-col>
       <b-col> </b-col>
     </b-row>
@@ -31,7 +32,8 @@
 
 <script>
 // @ is an alias to /src
-import WC from "@/components/wCrimeWordCloud.vue";
+// import WC from "@/components/wCrimeWordCloud.vue";
+import MAP from "@/components/map.vue";
 import axios from "axios";
 
 var webcall = axios.create({
@@ -44,7 +46,8 @@ var webcall = axios.create({
 export default {
   name: "ca",
   components: {
-    WC,
+    // WC,
+    MAP
   },
   data() {
     return {
