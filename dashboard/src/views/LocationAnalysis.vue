@@ -13,7 +13,7 @@ export default {
   },
   computed: {
     location() {
-      return this.$store.getters.locToString;
+      return this.$store.state.location;
     },
   },
 };

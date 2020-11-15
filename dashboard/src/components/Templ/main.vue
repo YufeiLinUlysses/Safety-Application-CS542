@@ -51,6 +51,7 @@ import CR from "./crimeReport.vue";
 export default {
   data() {
     return {
+      location: null,
       searchLoc: null,
     };
   },
@@ -65,11 +66,13 @@ export default {
       if (this.$store.getters.locToString === null) {
         alert("Please Select A Location");
       } else {
+        this.$store.commit("updateStatus", false);
         this.$router.push({ name: page });
       }
     },
     home: function (page) {
       this.$store.dispatch("updateLoc", null);
+      this.$store.commit("updateStatus", true);
       this.$router.push({ name: page });
     },
   },
@@ -77,7 +80,7 @@ export default {
     getValue() {
       return this.$store.getters.locToString;
     },
-  },
+  }
 };
 </script>
 
