@@ -1,7 +1,8 @@
 import json
-from flask import Flask
+from flask import Flask, request
 from Database.dbconnection import DB
 from Database import envir, involve, loc, person_file as pf, crime_file as cf, crime_type as ct
+import data_manager
 app = Flask(__name__)
 
 
@@ -86,6 +87,14 @@ def cla():
     result = db.selectDB(envir.GetSQL("tC"))
     return result
 
+
+@app.route('/getCrimeByLoc', methods=['POST'])
+def GetCrime():
+    requestData = request.get_json()
+    fLat = float(requestData.get("lat"))
+    fLon = float(requestData.get("lon"))
+    result = data_manager.GetCrimeFileByLoc(fLat, fLon)
+    return result
 
 
 
