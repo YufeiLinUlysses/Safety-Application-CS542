@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <!-- <div>
       <h2>Search and add a pin</h2>
       <label>
         <gmap-autocomplete @place_changed="setPlace"> </gmap-autocomplete>
@@ -8,18 +8,12 @@
       </label>
       <br />
     </div>
-    <br />
-    <gmap-map
-      :center="center"
-      :zoom="12"
-      style="width: 100%; height: 400px"
-      @click="mark"
-    >
+    <br /> -->
+    <gmap-map :center="center" :zoom="12" :style="windStyle" @click="mark">
       <gmap-marker
         :key="index"
         v-for="(m, index) in markers"
-        :position="m.position"
-        @click="alert(m.position)"
+        :position="m"
       ></gmap-marker>
     </gmap-map>
   </div>
@@ -32,30 +26,52 @@ export default {
     return {
       // default to Montreal to keep it simple
       // change this to whatever makes sense
-      center: { lat: 45.508, lng: -73.587 },
+      center: { lat: 42.36243, lng: -71.05977 },
       markers: [],
+      windWidth: 10,
+      windHeight: 10,
       places: [],
+      windStyle: "width: 100%;height:400px",
       currentPlace: null,
     };
   },
-
   mounted() {
-    this.geolocate();
+    this.$nextTick(function () {
+      window.addEventListener("resize", this.winH);
+      window.addEventListener("resize", this.winW);
+
+      //Init
+      this.winH();
+      this.winW();
+      this.windStyle =
+        "width:" +
+        String(this.windWidth) +
+        "px;height:" +
+        String(this.windHeight) +
+        "px";
+    });
   },
 
   methods: {
+    winH: function () {
+      this.windHeight = document.documentElement.clientHeight;
+    },
+    winW: function () {
+      this.windWidth = document.documentElement.clientWidth;
+    },
     // receives a place object via the autocomplete component
     setPlace(place) {
       this.currentPlace = place;
     },
     mark(event) {
-      alert(event.latLng.lat());
-      alert(event.latLng.lng());
+      
       var marker = {
         lat: event.latLng.lat(),
-        lng: event.latLng.lng()
-      }
-      this.markers = [marker]
+        lng: event.latLng.lng(),
+      };
+      this.$store.dispatch("updateLoc",marker)
+      this.markers = [marker];
+      console.log(this.markers);
     },
     addMarker() {
       if (this.currentPlace) {
@@ -77,6 +93,10 @@ export default {
         };
       });
     },
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.winW);
+    window.removeEventListener("resize", this.winH);
   },
 };
 </script>

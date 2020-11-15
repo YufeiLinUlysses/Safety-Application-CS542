@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import WA from '../views/WeatherAnalysis.vue'
 import CA from '../views/CriminalAnalysis.vue'
+import LA from '../views/LocationAnalysis.vue'
 import TT from '../views/Test_Torres.vue'
 import TS from '../views/Test_Sophia.vue'
 import TJ from '../views/Test_Jeff.vue'
@@ -34,6 +35,11 @@ const routes = [
     path: '/crimeAnalysis',
     name: 'CA',
     component: CA
+  },
+  {
+    path: '/locAnalysis',
+    name: 'LA',
+    component: LA
   },
   {
     path: '/testTorres',
