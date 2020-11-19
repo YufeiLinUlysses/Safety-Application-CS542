@@ -1,3 +1,5 @@
+// author: LI Xiuhan
+
 <template>
   <div id="app">
     <GChart

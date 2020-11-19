@@ -2,7 +2,7 @@ import json
 from flask import Flask, request
 from Database.dbconnection import DB
 from Database import envir, involve, loc, person_file as pf, crime_file as cf, crime_type as ct
-import data_manager
+# import data_manager
 app = Flask(__name__)
 
 
@@ -68,7 +68,7 @@ def weaCr():
     result = db.selectDB(envir.GetSQL("wC"))
     return result
 
-@app.route('/humCrime', methods=['GET'])
+@app.route('/crime', methods=['GET'])
 def humCr():
     db = DB("CRIMINALANALYSIS")
     result = db.selectDB(envir.GetSQL("hC"))
@@ -85,6 +85,13 @@ def tempCr():
 def cla():
     db = DB("CRIMINALANALYSIS")
     result = db.selectDB(envir.GetSQL("tC"))
+    return result
+
+
+@app.route('/typecnt', methods=['GET'])
+def typecnt():
+    db = DB("CRIMINALANALYSIS")
+    result = db.selectDB(ct.GetSQL("typecnt"))
     return result
 
 

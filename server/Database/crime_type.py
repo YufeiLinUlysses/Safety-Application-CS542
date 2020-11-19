@@ -17,7 +17,8 @@ CRIME_TYPE_SQL = {"CreateCrimeType": "CREATE TABLE CRIMETYPE (TYPEID INT primary
                   "SelectCrimeTypeByCrimeID": "Select * from CRIMETYPE where TYPEID = %s",
                     "InsertALL2CrimeType": "INSERT INTO CRIMETYPE VALUES(%s, %s, %s)",
 "DropTable": "DROP TABLE IF EXISTS CRIMETYPE",
-"DeleteCrimeType": "DELETE FROM CRIMETYPE WHERE TYPEID = %s"
+"DeleteCrimeType": "DELETE FROM CRIMETYPE WHERE TYPEID = %s",
+'typecnt': 'SELECT DESCRIPTION,COUNT(CRIMEID) ct FROM CRIMEFILE JOIN CRIMETYPE ON CRIMEFILE.TYPEID = CRIMETYPE.TYPEID GROUP BY DESCRIPTION ORDER BY COUNT(CRIMEID) DESC' 
                   }
 
 def GetData():
