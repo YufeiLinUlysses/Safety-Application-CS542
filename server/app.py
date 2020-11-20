@@ -2,7 +2,7 @@ import json
 from flask import Flask, request
 from Database.dbconnection import DB
 from Database import envir, involve, loc, person_file as pf, crime_file as cf, crime_type as ct
-# import data_manager
+import Database.data_manager as data_manager
 app = Flask(__name__)
 
 
