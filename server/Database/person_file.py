@@ -1,40 +1,29 @@
 import json
 import csv
 import os
-CREATE_SQL = {"CreatePerson": "CREATE TABLE PERSONFILE (pid INT, gender Char(1), BirthDate Date, race varchar(55), tool varchar(25), KnowsEachOther Char(1), Job Char(65))"}
 
-SELECT_SQL = {"SelectAll": "Select * from PERSONFILE",
-            "SelectByPID": "Select * from PERSONFILE where pid = %s"
-              }
-INSERT_SQL = {"InsertALL": "INSERT INTO PERSONFILE VALUES(%s, %s, %s, %s, %s, %s, %s, %s)" }
-DROP_SQL = {"DropTable": "DROP TABLE PERSONFILE"}
-
-PEOPLE_SQL = {"CreatePerson": "CREATE TABLE PERSONFILE (pid INT PRIMARY KEY, gender Char(1), BirthDate varchar(50), race varchar(55), tool varchar(25), KnowsEachOther Char(1), Job Char(65))",
+PEOPLE_SQL = {"CreatePerson": "CREATE TABLE PERSONFILE (pid INT PRIMARY KEY, gender Char(1), BirthDate varchar(50), race varchar(55), tool varchar(25), Job Char(65))",
 "SelectAll": "Select * from PERSONFILE",
-            "SelectByPID": "Select * from PERSONFILE where pid = %s",
-"InsertALL": "INSERT INTO PERSONFILE VALUES(%s, %s, %s, %s, %s, %s, %s)" ,
+"SelectByPID": "Select * from PERSONFILE where pid = %s",
+"InsertALL": "INSERT ignore INTO PERSONFILE VALUES(%s, %s, %s, %s, %s, %s)" ,
 "DropTable": "DROP TABLE IF EXISTS PERSONFILE",
-
+"ColumnNumber": "SELECT COUNT(*) FROM PERSONFILE",
 }
 
 def GetData():
     personDataList = []
     script_dir = os.path.dirname(__file__)
-    actualPath = os.path.join(script_dir, "DataSource/Person/person.csv")
+    actualPath = os.path.join(script_dir, "DataSource/Person/people.csv")
 
     with open(actualPath) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
-        pidList = []
         for row in csv_reader:
             if line_count == 0:
                 line_count += 1
                 continue
-            if int(row[0]) in pidList:
-                continue
-            pidList.append(int(row[0]))
 
-            personDataList.append((int(row[0]), row[1], row[2], row[3], row[4], row[5], row[6])) # correspond to (pid INT, gender Char(1), BirthDate Date, race varchar(55), tool varchar(25), KnowsEachOther Char(1), Job Char(65))
+            personDataList.append((int(row[0]), row[1], row[2], row[3], row[4], row[5])) # correspond to (pid INT, gender Char(1), BirthDate Date, race varchar(55), tool varchar(25), KnowsEachOther Char(1), Job Char(65))
             line_count += 1
 
     return personDataList
