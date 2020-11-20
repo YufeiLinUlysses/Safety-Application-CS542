@@ -1,4 +1,4 @@
-INSERTION_SQL = {"CreateInsertion": """CREATE Insertion realtion 
+INSERTION_SQL = {"CreateInsertion": """CREATE Table Insertion 
             (LOCATION INT,
             Date date,
             Relation Char(30),
@@ -7,7 +7,7 @@ INSERTION_SQL = {"CreateInsertion": """CREATE Insertion realtion
             CrimeType varchar(50),
             CHECK((Relation) is not None),
             """,
-            "INSERT_SQL": "INSERT INTO Insertion VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            "INSERT_SQL": "INSERT ignore INTO Insertion VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)"
             }
 
 def GetSql(sql):

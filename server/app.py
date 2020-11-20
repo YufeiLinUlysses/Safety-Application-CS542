@@ -104,6 +104,13 @@ def GetCrime():
     return result
 
 
+@app.route('/insertCrime', methods=['POST'])
+def Insert2Insert():
+    requestData = request.get_json()
+    result = data_manager.Insert2Insert(requestData)
+    return result
+
+
 
 # if __name__ == "__main__":
 app.run(debug=True)
