@@ -4,20 +4,20 @@
 import json
 import csv
 import os
-#still lacking of triggers
 
 LOC_SQL = {'CREATELOCATION': '''CREATE TABLE LOCATION (
-	                                   LOCATIONID INT PRIMARY KEY, 
-									   STREET VARCHAR(25), 
-									   LAT FLOAT(8), 
-									   LON FLOAT(8), 
-									   POLICE_DISTRICT VARCHAR(5), 
-									   DISTRICT VARCHAR(25));''',
+	                                   POLICE_DISTRICT VARCHAR(25) PRIMARY KEY, 
+	                                   DISTRICT VARCHAR(255) Not Null,
+									   safetyIndex INT)''',
 			'SELECTALL': 'SELECT * FROM LOCATION',
 			'SELECTID': ' SELECT * FROM LOCATION WHERE LOCATIONID = %s',
 
 			"DropTable":"DROP TABLE IF EXISTS LOCATION",
-			'INSERTALL': 'INSERT INTO LOCATION VALUES (%s,%s,%s,%s,%s,%s)',
+			'INSERTALL': 'INSERT IGNORE INTO LOCATION VALUES (%s,%s,%s)',
+
+
+
+
 			'SelectLocation': '''SELECT LAT, LON FROM LOCATION
 									JOIN CRIMEFILE 
 									ON CRIMEFILE.LOCATIONID = LOCATION.LOCATIONID''',
@@ -33,17 +33,16 @@ LOC_SQL = {'CREATELOCATION': '''CREATE TABLE LOCATION (
 									ORDER BY cnt DESC'''
 		   }
 
-
-#copy from yufei
 def GetData():
+	locList = []
 	script_dir = os.path.dirname(__file__)
-	actualPath = os.path.join(script_dir, "DataSource/Location/loc.csv")
-	locData = []
-	with open(actualPath) as f:
-		f.readline()
-		locData = ([tuple(line) for line in csv.reader(f)])
+	actualPath = os.path.join(script_dir, "DataSource/Location/location.csv")
+	with open(actualPath) as csv_file:
+		csv_reader = csv.DictReader(csv_file, delimiter=',')
+		for row in csv_reader:
+			locList.append((row["POLICE_DISTRICT"], row["DISTRICT"], 0))  # as in crime id, loc id, typeID, timeStamp
 
-	return locData
+	return locList
 
 
 def GetSQL(sql):
