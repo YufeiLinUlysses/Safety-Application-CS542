@@ -97,3 +97,12 @@ class DB():
             self.db.commit()
         except Exception as e:
             print(e)
+
+    def DropTrigger(self, sSql):
+        self.db.ping(reconnect=True)
+        try:
+            dbcur = self.db.cursor()
+            dbcur.execute(sSql)
+            self.db.commit()
+        except Exception as e:
+            print(e)
