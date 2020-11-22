@@ -5,8 +5,8 @@
       :center="center"
       style="height: 400px; width: 100%"
       zoomDisable="false"
-      minZoom="11"
-      maxZoom="11"
+      minZoom=11
+      maxZoom=11
     >
       <l-tile-layer :url="url" :attribution="attribution" />
       <l-geo-json

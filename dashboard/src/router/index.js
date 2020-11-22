@@ -7,7 +7,7 @@ import LA from '../views/LocationAnalysis.vue'
 import TT from '../views/Test_Torres.vue'
 import TS from '../views/Test_Sophia.vue'
 import TJ from '../views/Test_Jeff.vue'
-
+import Adm from "../views/Admin.vue"
 
 
 Vue.use(VueRouter)
@@ -40,6 +40,11 @@ const routes = [
     path: '/locAnalysis',
     name: 'LA',
     component: LA
+  },
+  {
+    path: '/admin',
+    name: 'ADM',
+    component: Adm
   },
   {
     path: '/testTorres',
