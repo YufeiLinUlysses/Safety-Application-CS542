@@ -24,10 +24,10 @@ def InitDataBase():
     #     oDatabase.dropDB(involve.GetSQL("DropTable"))
     # except:
     #     print("involve not dropped")
-    # try:
-    #     oDatabase.dropDB(crime_file.GetSql("DropTable"))
-    # except:
-    #     print("crime_file not dropped")
+    try:
+        oDatabase.dropDB(crime_file.GetSql("DropTable"))
+    except:
+        print("crime_file not dropped")
     # try:
     #     oDatabase.dropDB(person_file.GetSQL("DropTable"))
     # except:
@@ -63,10 +63,10 @@ def InitDataBase():
     # oDatabase.insertDB(person_file.GetSQL("InsertALL"), person_file.GetData())
     # #
     # Init for Crime File
-    # oDatabase.createDB(crime_file.GetSql("CreateCrime"))
-    # CreateCrimeFileTrigger()
-    # oDatabase.insertByOneDB(crime_file.GetSql(
-    #     "InsertALLIgnore"), crime_file.GetData())
+    oDatabase.createDB(crime_file.GetSql("CreateCrime"))
+    CreateCrimeFileTrigger()
+    oDatabase.insertByOneDB(crime_file.GetSql(
+        "InsertALLIgnore"), crime_file.GetData())
     #
     # #
     # Init for Involve
@@ -112,8 +112,8 @@ def CreateCrimeFileTrigger():
 def AddDisFunc():
     oDatabase.AddFunction(crime_file.GetSql("DistanceFunc"))
 
-# InitDataBase()
-# createEnvSummary()
+InitDataBase()
+#createEnvSummary()
 # test()
 # GetCrimeCases()
 # GetPeopleNumber()
