@@ -79,7 +79,11 @@ def InitDataBase():
 
     #
     # #init for insert_table
-    oDatabase.createDB(insert_table.GetSql("CreateInsertion"))
+    # oDatabase.createDB(insert_table.GetSql("CreateInsertion"))
+
+
+def createEnvSummary():
+    oDatabase.createV(envir.GetSQL("createViewSum"))
 
 
 def test():
@@ -104,14 +108,14 @@ def CreateCrimeFileTrigger():
     oDatabase.DropTrigger(crime_file.GetSql("DropInsertTrigger"))
     oDatabase.CreateTrigger(crime_file.GetSql("InsertTrigger"))
 
+
 def AddDisFunc():
     oDatabase.AddFunction(crime_file.GetSql("DistanceFunc"))
 
-
-
-InitDataBase()
+# InitDataBase()
+# createEnvSummary()
 # test()
 # GetCrimeCases()
 # GetPeopleNumber()
 
-#AddDisFunc()
+# AddDisFunc()

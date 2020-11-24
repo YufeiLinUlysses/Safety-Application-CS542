@@ -1,22 +1,18 @@
 <template>
-  <div>
-    <!-- <div>
-      <h2>Search and add a pin</h2>
-      <label>
-        <gmap-autocomplete @place_changed="setPlace"> </gmap-autocomplete>
-        <b-button @click="addMarker">Add</b-button>
-      </label>
-      <br />
-    </div>
-    <br /> -->
-    <gmap-map :center="center" :zoom="12" :style="windStyle" @click="mark">
+  <b-container>
+    <gmap-map
+      :center="center"
+      :zoom="12"
+      style="width: 100%; height: 100%"
+      @click="mark"
+    >
       <gmap-marker
         :key="index"
         v-for="(m, index) in markers"
         :position="m"
       ></gmap-marker>
     </gmap-map>
-  </div>
+  </b-container>
 </template>
 
 <script>
@@ -64,12 +60,11 @@ export default {
       this.currentPlace = place;
     },
     mark(event) {
-      
       var marker = {
         lat: event.latLng.lat(),
         lng: event.latLng.lng(),
       };
-      this.$store.dispatch("updateLoc",marker)
+      this.$store.dispatch("updateLoc", marker);
       this.markers = [marker];
       console.log(this.markers);
     },

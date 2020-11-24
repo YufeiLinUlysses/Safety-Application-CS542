@@ -114,13 +114,9 @@ def typecnt():
 def locAna():
     db = DB("CRIMINALANALYSIS")
     data = request.get_json()
-    print(data)
     lat = float(data["lat"])
     lng = float(data["lng"])
-    print(lat)
-    print(lng)
     result = db.selectDB(cf.GetSql("SelectCrimeByLoc"), (lat, lng, lat, lng))
-    print(result)
     return result
 
 

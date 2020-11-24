@@ -73,7 +73,7 @@ CRIME_SQL = {"CreateCrime": """CREATE TABLE CRIMEFILE
              Order by abs(C.LAT- %s) + abs(C.LON- %s)
              Limit 5
              """,
-             'SelectCrimeByLoc': '''SELECT DISTINCT LAT AS lat, LON AS lon
+             'SelectCrimeByLoc': '''SELECT DISTINCT LAT, LON
               FROM CRIMEFILE 
               WHERE CORDISTANCE(LAT, LON, %s, %s) <=3 
               ORDER BY CORDISTANCE(LAT, LON, %s, %s) 

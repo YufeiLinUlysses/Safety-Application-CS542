@@ -51,8 +51,8 @@ export default {
             for (var i of temp) {
               result.push({
                 position: {
-                  lat: parseFloat(i["lat"]),
-                  lng: parseFloat(i["lon"]),
+                  lat: parseFloat(i["LAT"]),
+                  lng: parseFloat(i["LON"]),
                 },
               });
             }
