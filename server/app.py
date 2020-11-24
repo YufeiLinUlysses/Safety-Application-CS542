@@ -135,10 +135,46 @@ def Insert2Insert():
     ctype = insertData.get("Type")
     dt = datetime.datetime.strptime(cDate, '%Y-%m-%d')
     dt = dt.timestamp()
-    
+
     insertData = [(lat, lng, dt, cTime, relation, criminal, victim, ctype)]
+    iBefore = db.selectDB(insert_table.GetSql("TABLE_COUNT"))
     db.insertByOneDB(insert_table.GetSql("INSERT_SQL"), insertData)
-    return json.dumps({"success": True})
+    iAfter = db.selectDB(insert_table.GetSql("TABLE_COUNT"))
+    if iAfter > iBefore:
+        return json.dumps({"success": True})
+    else:
+        return json.dumps({"success": False})
+
+
+@app.route('/requestInsert', methods=['GET'])
+def RequestInsert():
+    db = DB("CRIMINALANALYSIS")
+    return db.selectDB("SELECT_ALL")
+
+@app.route('/crimeConfirm', methods=['GET'])
+def ConfirmRequest():
+    db = DB("CRIMINALANALYSIS")
+    #confirmData = request.get_json()
+
+    #dataList = confirmData.get("dataList")
+    dataList = [(1, True)]
+    for id, bConfirm in dataList:
+        db.updataDB(insert_table.GetSql("UPDATE_TABLE"), (bConfirm, id))
+
+
+    #iCrimeID = int(db.selectDB(cf.GetSql("SelectMAXID")).get("max(CRIMEID)")) + 1
+    iCrimeID = "319073"
+    policeDistrict = "A1"
+    db.insertDB(cf.GetSql("InsertFromInsertion"), [(policeDistrict, iCrimeID)])
+
+    return db.selectDB(insert_table.GetSql("SELECT_ALL"))
+
+
+
+
+
+
+
 
 
 # if __name__ == "__main__":

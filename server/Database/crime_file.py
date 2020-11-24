@@ -77,7 +77,21 @@ CRIME_SQL = {"CreateCrime": """CREATE TABLE CRIMEFILE
               FROM CRIMEFILE 
               WHERE CORDISTANCE(LAT, LON, %s, %s) <=3 
               ORDER BY CORDISTANCE(LAT, LON, %s, %s) 
-              LIMIT 10;'''
+              LIMIT 10;''',
+
+             "SelectMAXID": "Select max(CRIMEID) From crimefile",
+
+
+             "InsertFromInsertion":"""
+             INSERT INTO CRIMEFILE (LAT, LON, TIMESTAMP, TIMESLOT, TYPEID, POLICE_DISTRICT, CRIMEID)
+                        VALUES(Select I.LAT, I.LON, I.TIMESTAMP, I.TIMESLOT, C.TYPEID
+                        From Insertion I, CrimeType C
+                        where I.CONFIRMED = True and C.DESCRIPTION = I.CrimeType), %s, %s)
+             """
+
+
+
+
              }
 
 

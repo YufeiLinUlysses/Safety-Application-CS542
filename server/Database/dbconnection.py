@@ -23,8 +23,14 @@ class DB():
             print(e)
             return None
 
-    def updataDB(self, uUpdate, uData=None):
-        pass
+    def updataDB(self, sSql, data):
+        self.db.ping(reconnect=True)
+        try:
+            dbcur = self.db.cursor()
+            dbcur.execute(sSql, data)
+            self.db.commit()
+        except Exception as e:
+            print(e)
 
     def createDB(self, uCreate):
         dbcur = self.db.cursor()
@@ -55,13 +61,17 @@ class DB():
             self.db.rollback()
             print("Exeception occured:{}".format(e))
 
-    def insertDB(self, uInsert, uData):
+    def insertDB(self, uInsert, uData=None):
         insertData = uData
         sql = uInsert
         self.db.ping(reconnect=True)
         try:
+
             dbcur = self.db.cursor()
-            dbcur.executemany(sql, insertData)
+            if uData == None:
+                dbcur.execute(sql)
+            else:
+                dbcur.executemany(sql, insertData)
             self.db.commit()
         except Exception as e:
             print(e)
@@ -126,3 +136,5 @@ class DB():
             self.db.commit()
         except Exception as e:
             print(e)
+
+
