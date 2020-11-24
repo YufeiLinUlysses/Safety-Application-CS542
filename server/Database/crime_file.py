@@ -43,13 +43,42 @@ CRIME_SQL = {"CreateCrime": """CREATE TABLE CRIMEFILE
 
              "DropInsertTrigger": "drop trigger if exists insertTrigger",
 
-             "SelectCrimeByLoc": """Select C.CRIMEID, T.DESCRIPTION, C.STREET, C.LAT, C.LON
-             from CRIMEFILE C, LOCATION L, CRIMETYPE T 
+             "DistanceFunc":"""
+             CREATE FUNCTION CORDISTANCE(    
+                LATORI FLOAT,
+                LNGORI FLOAT,
+                LATDEST FLOAT,
+                LNGDEST FLOAT
+                )  
+                RETURNS FLOAT 
+                DETERMINISTIC 
+                BEGIN  
+                DECLARE R FLOAT;
+                DECLARE DLAT FLOAT;
+                DECLARE DLON FLOAT;
+                DECLARE A FLOAT;
+                DECLARE DIST FLOAT;
+                SET R = 6371;
+                SET DLAT = RADIANS(LATORI-LATDEST);
+                SET DLON = RADIANS(LNGORI-LNGDEST);
+                SET A = POWER(SIN(DLAT/2),2)+COS(RADIANS(LATDEST))*COS(RADIANS(LATORI))*POWER(SIN(DLON/2),2);
+                SET DIST = 2*R*ATAN2(SQRT(a),SQRT(1-a)); 
+                RETURN DIST; 
+                END
+             """,
+
+             "SelectCrimeTypeByLoc": """T.DESCRIPTION,C.LAT, C.LON
+             from CRIMEFILE C, CRIMETYPE T 
              where  C.TYPEID = T.TYPEID and 
              abs(C.LAT- %s) <= 1e-6 and abs(C.LON- %s) <= 1e-6
              Order by abs(C.LAT- %s) + abs(C.LON- %s)
              Limit 5
-             """
+             """,
+            'SelectCrimeByLoc':'''SELECT DISTINCT LAT AS lat, LON AS lon
+              FROM CRIMEFILE 
+              WHERE CORDISTANCE(LAT, LON, %s, %s) <=3 
+              ORDER BY CORDISTANCE(LAT, LON, %s, %s) 
+              LIMIT 10;'''
             }
 
 
