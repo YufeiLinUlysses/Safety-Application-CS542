@@ -1,18 +1,13 @@
 <template>
-  <b-container>
-    <gmap-map
-      :center="center"
-      :zoom="12"
-      style="width: 100%; height: 100%"
-      @click="mark"
-    >
+  <div>
+    <gmap-map :center="center" :zoom="12" :style="windStyle" @click="mark">
       <gmap-marker
         :key="index"
         v-for="(m, index) in markers"
         :position="m"
       ></gmap-marker>
     </gmap-map>
-  </b-container>
+  </div>
 </template>
 
 <script>
@@ -39,12 +34,7 @@ export default {
       //Init
       this.winH();
       this.winW();
-      this.windStyle =
-        "width:" +
-        String(this.windWidth) +
-        "px;height:" +
-        String(this.windHeight) +
-        "px";
+      this.windStyle = "width: 100%;height:" + String(this.windHeight) + "px";
     });
   },
 
