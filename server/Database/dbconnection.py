@@ -73,6 +73,7 @@ class DB():
                 dbcur = self.db.cursor()
                 dbcur.execute(sql, i)
             except Exception as e:
+                print(e)
                 continue
         self.db.commit()
 
@@ -80,7 +81,7 @@ class DB():
         sql = uSelect
         dbcur = self.db.cursor()
         try:
-            
+
             if uData == None:
                 dbcur.execute(sql)
             else:
@@ -117,7 +118,7 @@ class DB():
         except Exception as e:
             print(e)
 
-    def AddFunction(self,sSql):
+    def AddFunction(self, sSql):
         self.db.ping(reconnect=True)
         try:
             dbcur = self.db.cursor()

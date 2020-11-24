@@ -1,26 +1,26 @@
 <template>
   <b-container class="text-center">
-    <h1>The Location You Have Entered</h1>
-    <br />
-    <span>{{ location }}</span>
+    <h1 class="mb-3">The Location You Have Entered</h1>
+    <span
+      ><h5>Latitude:{{ lat }}, Longitude: {{ lng }}</h5></span
+    >
     <br />
     <nearBy />
   </b-container>
 </template>
 
 <script>
-import nearBy from "@/components/nearbymap.vue"
+import nearBy from "@/components/nearbymap.vue";
 export default {
-  components:{
-    nearBy
+  components: {
+    nearBy,
   },
   data() {
-    return {};
+    return { lat: 0, lng: 0 };
   },
-  computed: {
-    location() {
-      return this.$store.state.location;
-    },
+  mounted() {
+    this.lat = this.$store.state.location.lat;
+    this.lng = this.$store.state.location.lng;
   },
 };
 </script>

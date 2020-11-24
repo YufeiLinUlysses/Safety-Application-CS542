@@ -17,17 +17,17 @@ def InitDataBase():
     pass
     # sequence is important here because we have foreign key constraint.
     # try:
-    #     oDatabase.dropDB(relation_table.GetSQL("DROP"))
+    # oDatabase.dropDB(relation_table.GetSQL("DROP"))
     # except:
-    #     print("relation not dropped")
+    # print("relation not dropped")
     # try:
-    #     oDatabase.dropDB(involve.GetSQL("DropTable"))
+    # oDatabase.dropDB(involve.GetSQL("DropTable"))
     # except:
-    #     print("involve not dropped")
-    try:
-        oDatabase.dropDB(crime_file.GetSql("DropTable"))
-    except:
-        print("crime_file not dropped")
+    # print("involve not dropped")
+    # try:
+    # oDatabase.dropDB(crime_file.GetSql("DropTable"))
+    # except:
+    # print("crime_file not dropped")
     # try:
     #     oDatabase.dropDB(person_file.GetSQL("DropTable"))
     # except:
@@ -63,10 +63,10 @@ def InitDataBase():
     # oDatabase.insertDB(person_file.GetSQL("InsertALL"), person_file.GetData())
     # #
     # Init for Crime File
-    oDatabase.createDB(crime_file.GetSql("CreateCrime"))
-    CreateCrimeFileTrigger()
-    oDatabase.insertByOneDB(crime_file.GetSql(
-        "InsertALLIgnore"), crime_file.GetData())
+    # oDatabase.createDB(crime_file.GetSql("CreateCrime"))
+    # CreateCrimeFileTrigger()
+    # oDatabase.insertByOneDB(crime_file.GetSql(
+    # "InsertALLIgnore"), crime_file.GetData())
     #
     # #
     # Init for Involve
@@ -79,7 +79,7 @@ def InitDataBase():
 
     #
     # #init for insert_table
-    # oDatabase.createDB(insert_table.GetSql("CreateInsertion"))
+    oDatabase.createDB(insert_table.GetSql("CreateInsertion"))
 
 
 def createEnvSummary():
@@ -112,10 +112,11 @@ def CreateCrimeFileTrigger():
 def AddDisFunc():
     oDatabase.AddFunction(crime_file.GetSql("DistanceFunc"))
 
+
+
 InitDataBase()
-#createEnvSummary()
+# createEnvSummary()
 # test()
 # GetCrimeCases()
 # GetPeopleNumber()
-
 # AddDisFunc()

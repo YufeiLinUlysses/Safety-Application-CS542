@@ -107,6 +107,13 @@
 </template>
 
 <script>
+import axios from "axios";
+var webcall = axios.create({
+  baseURL: "http://127.0.0.1:5000/",
+  timeout: 20000,
+  withCredentials: false,
+  headers: { "Content-Type": "application/json" },
+});
 export default {
   data() {
     return {
@@ -175,6 +182,21 @@ export default {
       var curTime = Number(this.ctime.split(":")[0]);
       this.report["Time"] = curTime - (curTime % 3);
       console.log(this.report);
+
+      var vm = this;
+      try {
+        webcall
+          .post("/insertCrime", this.report)
+          .then(async function (response) {
+            vm.result = response.data;
+            console.log(response.data);
+            console.log(vm.result);
+          });
+      } catch (err) {
+        console.log("error");
+        alert(err);
+      }
+
       // Hide the modal manually
       this.$nextTick(() => {
         this.$bvModal.hide("modal-prevent-closing");

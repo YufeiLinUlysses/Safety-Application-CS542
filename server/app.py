@@ -1,5 +1,6 @@
 import json
 from flask import Flask, request
+import datetime
 from Database.dbconnection import DB
 from Database import envir, involve, loc, person_file as pf, crime_file as cf, crime_type as ct, insert_table
 app = Flask(__name__)
@@ -124,21 +125,20 @@ def locAna():
 def Insert2Insert():
     db = DB("CRIMINALANALYSIS")
     insertData = request.get_json()
-    sName = insertData.get("name")
-    sNameState = insertData.get("nameState")
-    sCriminal = insertData.get("criminal")
-    sVictim = insertData.get("victim")
-    sRelation = insertData.get("relation")
-    sType = insertData.get("type")
-    sName = insertData.get("name")
-    sLat = insertData.get("latitude")
-    sLon = insertData.get("longitude")
-    sTime = insertData.get("ctime")
-    sDate = insertData.get("cdate")
-    insertData = ((sName, sNameState, sCriminal, sVictim,
-                   sRelation, sType, sName, sLat, sLon, sTime, sDate))
-    db.insertDB(insert_table.GetSql("INSERT_SQL"), insertData)
-    return 1
+    lat = insertData.get("Latitude")
+    lng = insertData.get("Longitude")
+    cDate = insertData.get("Date")
+    cTime = insertData.get("Time")
+    relation = insertData.get("Relation")
+    criminal = insertData.get("Criminal")
+    victim = insertData.get("Victim")
+    ctype = insertData.get("Type")
+    dt = datetime.datetime.strptime(cDate, '%Y-%m-%d')
+    dt = dt.timestamp()
+    
+    insertData = [(lat, lng, dt, cTime, relation, criminal, victim, ctype)]
+    db.insertByOneDB(insert_table.GetSql("INSERT_SQL"), insertData)
+    return json.dumps({"success": True})
 
 
 # if __name__ == "__main__":
