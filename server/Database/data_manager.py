@@ -24,10 +24,10 @@ def InitDataBase():
     #     oDatabase.dropDB(involve.GetSQL("DropTable"))
     # except:
     #     print("involve not dropped")
-    try:
-        oDatabase.dropDB(crime_file.GetSql("DropTable"))
-    except:
-        print("crime_file not dropped")
+    # try:
+    #     oDatabase.dropDB(crime_file.GetSql("DropTable"))
+    # except:
+    #     print("crime_file not dropped")
     # try:
     #     oDatabase.dropDB(person_file.GetSQL("DropTable"))
     # except:
@@ -52,7 +52,7 @@ def InitDataBase():
     #
     # # Init for Location
     # oDatabase.createDB(loc.GetSQL("CREATELOCATION"))
-    #oDatabase.insertDB(loc.GetSQL("INSERTALL"), loc.GetData())
+    # oDatabase.insertDB(loc.GetSQL("INSERTALL"), loc.GetData())
     #
     # Init for Environment
     # oDatabase.createDB(envir.GetSQL("CreateEnv"))
@@ -63,15 +63,15 @@ def InitDataBase():
     # oDatabase.insertDB(person_file.GetSQL("InsertALL"), person_file.GetData())
     # #
     # Init for Crime File
-    oDatabase.createDB(crime_file.GetSql("CreateCrime"))
-    CreateCrimeFileTrigger()
-    oDatabase.insertDB(crime_file.GetSql(
-        "InsertALLIgnore"), crime_file.GetData())
+    # oDatabase.createDB(crime_file.GetSql("CreateCrime"))
+    # CreateCrimeFileTrigger()
+    # oDatabase.insertByOneDB(crime_file.GetSql(
+    #     "InsertALLIgnore"), crime_file.GetData())
     #
     # #
     # Init for Involve
     # oDatabase.createDB(involve.GetSQL("CreateInvolve"))
-    #oDatabase.insertDB(involve.GetSQL("InsertALL"), involve.GetData())
+    # oDatabase.insertDB(involve.GetSQL("InsertALL"), involve.GetData())
     #
     #
     # # init for relation
@@ -79,7 +79,7 @@ def InitDataBase():
 
     #
     # #init for insert_table
-    # oDatabase.createDB(insert_table.GetSql("CreateInsertion"))
+    oDatabase.createDB(insert_table.GetSql("CreateInsertion"))
 
 
 def test():
@@ -109,9 +109,9 @@ def AddDisFunc():
 
 
 
-# InitDataBase()
+InitDataBase()
 # test()
 # GetCrimeCases()
 # GetPeopleNumber()
 
-AddDisFunc()
+#AddDisFunc()

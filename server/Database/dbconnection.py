@@ -66,6 +66,16 @@ class DB():
         except Exception as e:
             print(e)
 
+    def insertByOneDB(self, uInsert, uData):
+        sql = uInsert
+        for i in uData:
+            try:
+                dbcur = self.db.cursor()
+                dbcur.execute(sql, i)
+            except Exception as e:
+                continue
+        self.db.commit()
+
     def selectDB(self, uSelect, uData=None):
         sql = uSelect
         dbcur = self.db.cursor()

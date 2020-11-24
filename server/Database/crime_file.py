@@ -6,7 +6,6 @@ import csv
 import os
 
 
-
 CRIME_SQL = {"CreateCrime": """CREATE TABLE CRIMEFILE 
             (CRIMEID INT PRIMARY KEY, 
             TYPEID INT Not NULL,
@@ -16,34 +15,34 @@ CRIME_SQL = {"CreateCrime": """CREATE TABLE CRIMEFILE
 			LON FLOAT(24, 8) Not NULL, 
 			street VarChar(255),
 			POLICE_DISTRICT VARCHAR(25) Not NULL,
-			ERRORINDICATE INT NOT NULL,
+			ERRORINDICATE VARCHAR(25) NOT NULL,
             FOREIGN KEY (POLICE_DISTRICT) REFERENCES LOCATION(POLICE_DISTRICT),
             FOREIGN KEY (TYPEID) REFERENCES CRIMETYPE(TYPEID),
             FOREIGN KEY (TIMESTAMP, TIMESLOT) REFERENCES ENVIRONMENT(WDATE, HOUR))
             """,
-            "SelectByID": "Select * from CRIMEFILE where CRIMEID = %s",
-            "InsertALL": "INSERT INTO CRIMEFILE VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)" ,
-            "InsertALLIgnore": "INSERT Ignore INTO CRIMEFILE VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)" ,
+             "SelectByID": "Select * from CRIMEFILE where CRIMEID = %s",
+             "InsertALL": "INSERT INTO CRIMEFILE VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+             "InsertALLIgnore": "INSERT Ignore INTO CRIMEFILE VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)",
              "DropTable": "DROP TABLE IF EXISTS CRIMEFILE",
              "ColumnNumber": "SELECT COUNT(*) FROM CRIMEFILE",
 
              "InsertTrigger": """
-                CREATE TRIGGER insertTrigger
+                CREATE TRIGGER CRIMEINSERT
                 BEFORE INSERT ON CRIMEFILE 
                 FOR EACH ROW
                 Begin
                 If (New.TIMESLOT not in (0, 3, 6, 9, 12, 15, 18, 21)) Then
                    SET NEW.TIMESLOT = ((new.TIMESLOT div 3) * 3);
                 end if;
-                If (New.LAT = -1 and New.LON = -1) Then
-                   SET NEW.ERRORINDICATE = 2;
+                If New.LAT = -1 OR NEW.LAT = 0 Then
+                  SIGNAL SQLSTATE '45000';
                 end if;
                 END
              """,
 
              "DropInsertTrigger": "drop trigger if exists insertTrigger",
 
-             "DistanceFunc":"""
+             "DistanceFunc": """
              CREATE FUNCTION CORDISTANCE(    
                 LATORI FLOAT,
                 LNGORI FLOAT,
@@ -74,28 +73,27 @@ CRIME_SQL = {"CreateCrime": """CREATE TABLE CRIMEFILE
              Order by abs(C.LAT- %s) + abs(C.LON- %s)
              Limit 5
              """,
-            'SelectCrimeByLoc':'''SELECT DISTINCT LAT AS lat, LON AS lon
+             'SelectCrimeByLoc': '''SELECT DISTINCT LAT AS lat, LON AS lon
               FROM CRIMEFILE 
               WHERE CORDISTANCE(LAT, LON, %s, %s) <=3 
               ORDER BY CORDISTANCE(LAT, LON, %s, %s) 
               LIMIT 10;'''
-            }
+             }
 
 
 def GetData():
     crimeDataList = []
     script_dir = os.path.dirname(__file__)
-    actualPath = os.path.join(script_dir, "DataSource/CrimeFile/finalcrime.csv")
+    actualPath = os.path.join(
+        script_dir, "DataSource/CrimeFile/finalcrime.csv")
 
     with open(actualPath) as csv_file:
         csv_reader = csv.DictReader(csv_file, delimiter=',')
         for row in csv_reader:
             crimeDataList.append((int(row["CRIME_NUMBER"]), int(row["CRIME_TYPE"]), int(row["CRIME_TIME"]),
-                                  int(row["HOUR"]), row["LAT"], row["LONG"], row["STREET"], row["POLICEDISTRICT"], 1))
+                                  int(row["HOUR"]), row["LAT"], row["LONG"], row["STREET"], row["POLICEDISTRICT"], '1'))
     return crimeDataList
 
 
 def GetSql(sql):
     return CRIME_SQL[sql]
-
-

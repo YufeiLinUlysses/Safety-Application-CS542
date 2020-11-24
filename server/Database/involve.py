@@ -32,7 +32,7 @@ def GetData():
         iCrimeRow = 0
         iVictim = 0
         for row in csv_reader:
-            if iCrimeRow > len(tempDataList):
+            if iCrimeRow >= len(tempDataList):
                 break
             crimeID = tempDataList[iCrimeRow]
             if iVictim == 0:
