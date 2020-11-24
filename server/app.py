@@ -1,8 +1,7 @@
 import json
 from flask import Flask, request
 from Database.dbconnection import DB
-from Database import envir, involve, loc, person_file as pf, crime_file as cf, crime_type as ct
-import Database.data_manager as data_manager
+from Database import envir, involve, loc, person_file as pf, crime_file as cf, crime_type as ct, insert_table
 app = Flask(__name__)
 
 
@@ -111,15 +110,6 @@ def typecnt():
     return result
 
 
-@app.route('/getCrimeByLoc', methods=['POST'])
-def GetCrime():
-    requestData = request.get_json()
-    fLat = float(requestData.get("lat"))
-    fLon = float(requestData.get("lon"))
-    result = data_manager.GetCrimeFileByLoc(fLat, fLon)
-    return result
-
-
 @app.route('/locAnalysis', methods=['POST'])
 def locAna():
     db = DB("CRIMINALANALYSIS")
@@ -129,16 +119,30 @@ def locAna():
     lng = float(data["lng"])
     print(lat)
     print(lng)
-    result = db.selectDB(loc.GetSQL("nearbyCriLoc"), (lat, lng, lat, lng))
+    result = db.selectDB(cf.GetSql("SelectCrimeByLoc"), (lat, lng, lat, lng))
     print(result)
     return result
 
 
 @app.route('/insertCrime', methods=['POST'])
 def Insert2Insert():
-    requestData = request.get_json()
-    result = data_manager.Insert2Insert(requestData)
-    return result
+    db = DB("CRIMINALANALYSIS")
+    insertData = request.get_json()
+    sName = insertData.get("name")
+    sNameState = insertData.get("nameState")
+    sCriminal = insertData.get("criminal")
+    sVictim = insertData.get("victim")
+    sRelation = insertData.get("relation")
+    sType = insertData.get("type")
+    sName = insertData.get("name")
+    sLat = insertData.get("latitude")
+    sLon = insertData.get("longitude")
+    sTime = insertData.get("ctime")
+    sDate = insertData.get("cdate")
+    insertData = ((sName, sNameState, sCriminal, sVictim,
+                   sRelation, sType, sName, sLat, sLon, sTime, sDate))
+    db.insertDB(insert_table.GetSql("INSERT_SQL"), insertData)
+    return 1
 
 
 # if __name__ == "__main__":

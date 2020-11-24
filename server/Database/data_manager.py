@@ -1,14 +1,14 @@
 # Author: Torres Fan
 # Email: xfan3@wpi.edu
-from . import crime_file
-from . import crime_type
-from . import loc
-from . import dbconnection
-from . import person_file
-from . import involve
-from . import envir
-from . import insert_table
-from . import relation_table
+import crime_file
+import crime_type
+import loc
+import dbconnection
+import person_file
+import involve
+import envir
+import insert_table
+import relation_table
 
 oDatabase = dbconnection.DB("CRIMINALANALYSIS")
 
@@ -104,27 +104,14 @@ def CreateCrimeFileTrigger():
     oDatabase.DropTrigger(crime_file.GetSql("DropInsertTrigger"))
     oDatabase.CreateTrigger(crime_file.GetSql("InsertTrigger"))
 
-# TODO: return 1 if success?
+def AddDisFunc():
+    oDatabase.AddFunction(crime_file.GetSql("DistanceFunc"))
 
-
-def Insert2Insert(insertData):
-    sName = insertData.get("name")
-    sNameState = insertData.get("nameState")
-    sCriminal = insertData.get("criminal")
-    sVictim = insertData.get("victim")
-    sRelation = insertData.get("relation")
-    sType = insertData.get("type")
-    sName = insertData.get("name")
-    sLat = insertData.get("latitude")
-    sLon = insertData.get("longitude")
-    sTime = insertData.get("ctime")
-    sDate = insertData.get("cdate")
-    insertData = ((sName, sNameState, sCriminal, sVictim,
-                   sRelation, sType, sName, sLat, sLon, sTime, sDate))
-    oDatabase.insertDB(insert_table.GetSql("INSERT_SQL"), insertData)
 
 
 # InitDataBase()
 # test()
 # GetCrimeCases()
 # GetPeopleNumber()
+
+AddDisFunc()
