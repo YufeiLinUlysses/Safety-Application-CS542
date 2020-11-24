@@ -1,16 +1,35 @@
 <template>
   <div id="app">
-    <GChart
-      type="Histogram"
-      :data="chartData"
-      :options="chartOptions"
-      style="width: 900px; height: 500px"
-    />
+    <b-form-select
+      v-model="selected"
+      value-field="value"
+      text-field="text"
+      :options="temp"
+      @change="fetchLine($event, selected)"
+      style="width: 150px"
+    >
+      <template #first>
+        <b-form-select-option :value="null" disabled
+          >-- Please select an option --</b-form-select-option
+        >
+      </template>
+    </b-form-select>
+    <br />
+    <br />
+    <GChart type="Histogram" :data="chartData" :options="chartOptions" />
+    <b-form-input type="range"></b-form-input>
   </div>
 </template>
 
 <script>
 import { GChart } from "vue-google-charts";
+import axios from "axios";
+var webcall = axios.create({
+  baseURL: "http://127.0.0.1:5000/",
+  timeout: 20000,
+  withCredentials: false,
+  headers: { "Content-Type": "application/json" },
+});
 export default {
   name: "App",
   components: {
@@ -19,42 +38,81 @@ export default {
   data() {
     return {
       // Array will be automatically processed with visualization.arrayToDataTable function
-      chartData: [
-        ["Dinosaur", "Length"],
-        ["Acrocanthosaurus (top-spined lizard)", 12.2],
-        ["Albertosaurus (Alberta lizard)", 9.1],
-        ["Allosaurus (other lizard)", 12.2],
-        ["Apatosaurus (deceptive lizard)", 22.9],
-        ["Archaeopteryx (ancient wing)", 0.9],
-        ["Argentinosaurus (Argentina lizard)", 36.6],
-        ["Baryonyx (heavy claws)", 9.1],
-        ["Brachiosaurus (arm lizard)", 30.5],
-        ["Ceratosaurus (horned lizard)", 6.1],
-        ["Coelophysis (hollow form)", 2.7],
-        ["Compsognathus (elegant jaw)", 0.9],
-        ["Deinonychus (terrible claw)", 2.7],
-        ["Diplodocus (double beam)", 27.1],
-        ["Dromicelomimus (emu mimic)", 3.4],
-        ["Gallimimus (fowl mimic)", 5.5],
-        ["Mamenchisaurus (Mamenchi lizard)", 21.0],
-        ["Megalosaurus (big lizard)", 7.9],
-        ["Microvenator (small hunter)", 1.2],
-        ["Ornithomimus (bird mimic)", 4.6],
-        ["Oviraptor (egg robber)", 1.5],
-        ["Plateosaurus (flat lizard)", 7.9],
-        ["Sauronithoides (narrow-clawed lizard)", 2.0],
-        ["Seismosaurus (tremor lizard)", 45.7],
-        ["Spinosaurus (spiny lizard)", 12.2],
-        ["Supersaurus (super lizard)", 30.5],
-        ["Tyrannosaurus (tyrant lizard)", 15.2],
-        ["Ultrasaurus (ultra lizard)", 30.5],
-        ["Velociraptor (swift robber)", 1.8],
-      ],
+      chartData: [],
+      buckNum: 10,
       chartOptions: {
         title: "Lengths of dinosaurs, in meters",
-        legend: { position: "none" },
+        legend: {
+          position: "none",
+        },
+        histogram: { bucketSize: 10 },
       },
+      selected: {
+        url: "/humCrime",
+        key: "AVGH",
+        title: "Humidity - Crime",
+      },
+      temp: [
+        {
+          text: "Humidity",
+          value: {
+            url: "/humCrime",
+            key: "AVGH",
+            title: "Humidity - Crime",
+          },
+        },
+        {
+          text: "Temperature",
+          value: {
+            url: "/tempCrime",
+            key: "AVGT",
+            title: "Temperature - Crime",
+          },
+        },
+        {
+          text: "Wind Speed",
+          value: {
+            url: "/wsCrime",
+            key: "AVGW",
+            title: "Wind Speed - Crime",
+          },
+        },
+        {
+          text: "Precipitation",
+          value: {
+            url: "/preCrime",
+            key: "AVGP",
+            title: "Precipitation - Crime",
+          },
+        },
+      ],
     };
+  },
+  methods: {
+    fetchLine: function (conn) {
+      var vm = this;
+      var key = conn.key;
+      try {
+        webcall.get(conn.url).then(async function (response) {
+          var temp = await JSON.parse(JSON.stringify(response.data));
+          var result = [["T", key]];
+          vm.chartOptions.title = conn.title;
+          for (var i of temp) {
+            var cur = [];
+            cur.push(i["T"]);
+            cur.push(parseFloat(i[key]));
+            result.push(cur);
+          }
+          vm.chartData = result;
+        });
+      } catch (err) {
+        console.log("error");
+        alert(err);
+      }
+    },
+  },
+  mounted() {
+    this.fetchLine(this.selected);
   },
 };
 </script>

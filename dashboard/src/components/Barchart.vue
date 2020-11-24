@@ -33,19 +33,8 @@ export default {
       chartsLib: null, 
       // Array will be automatically processed with visualization.arrayToDataTable function
       chartData: [
-        // ['Whether', 'frequency', {role: 'style'}],
-        // ['sunny', 1000, 'stroke-color: pink, stroke-width: 100, fill-color:silver'],
-        // ['cloudy', 999, 'color:silver'],
-        // ['rainy', 876, 'color: blue'],
-        // ['snowy', 666, 'color: silver'],
-        // ['sandy', 530, 'color: silver'],
-        // ['windy', 330, 'color: silver'],
-        // ['thunder', 270, 'color: silver'],
-        // ['lightening', 93, 'color:silver'],
-        // ['hail', 77,'#76A7FA'],
-        // ['ratyphooniny', 12,'color:silver'],
-        // [result[0]['weather'], result[0]['cnt'],'color:silver'],
-      ],
+        
+      ]
       //setting: {packages:["corechart"]}
     }
   },
@@ -55,13 +44,34 @@ export default {
       return this.chartsLib.charts.Bar.convertOptions({
         chart: {
           title: 'Weather frequency',
-          subtitle: 'Here is our subtitle'
+          // subtitle: '我才不会那么轻易狗带'
         },
         bars: 'horizontal', // Required for Material Bar Charts.
-        hAxis: { format: 'decimal' },
+        hAxis: {
+            title: 'here is your x-axis title',
+            minxValue: 112, 
+            gridlines: { count: 10 },
+            format: 'decimal', 
+            direction: -1,
+            // baselineColor: 'red',
+            // textStyle: {color: 'pink'},
+            // ticks: [500,1000,1500,2000,] 
+            // baselineColor: 'red'
+        },
+        vAxis: {
+            title: 'here is your y-axis title',
+            baselineColor: 'red',
+            minValue: 112,
+            direction: -1 ,
+            // ticks: [500,1000,1500,2000,] 
+            // gridlines: { count: 10 }
+        },
         height: 400,
-        colors: ['#1b9e77', '#d95f02', '#7570b3'],
-        //isStacked: true
+        bar: {groupWidth: '75%'},
+        colors: ['#7570b3'],
+        legend: { position: 'none' }
+        // backgroundColor: 'red'
+        // isStacked: true
       })
     }
   },
@@ -79,7 +89,7 @@ export default {
           for(var i of temp){
             var cur = []
             cur.push(i['text'])
-            cur.push(i['value'])
+            cur.push(parseInt(i['value']))
             result.push(cur)
           }
           // alert(result)
@@ -90,10 +100,10 @@ export default {
         console.log("error");
         alert(err);
       }
-    },
+    }
   },
   mounted() {
     this.createGraph();
-  },
+  }
 }
 </script>

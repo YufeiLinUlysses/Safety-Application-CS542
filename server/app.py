@@ -43,23 +43,23 @@ def windSpeed():
 
 @app.route('/location', methods=["GET"])
 def location():
-	db = DB("CRIMINALANALYSIS")
-	result = db.selectDB(loc.GetSQL('SelectLocation'))
-	return result
+    db = DB("CRIMINALANALYSIS")
+    result = db.selectDB(loc.GetSQL('SelectLocation'))
+    return result
 
 
 @app.route('/street', methods=['GET'])
 def street():
-	db = DB('CRIMINALANALYSIS')
-	result = db.selectDB(loc.GetSQL('streetCount'))
-	return result
+    db = DB('CRIMINALANALYSIS')
+    result = db.selectDB(loc.GetSQL('streetCount'))
+    return result
 
 
 @app.route('/district', methods=['GET'])
 def district():
-	db = DB('CRIMINALANALYSIS')
-	result = db.selectDB(loc.GetSQL('districtCount'))
-	return result
+    db = DB('CRIMINALANALYSIS')
+    result = db.selectDB(loc.GetSQL('districtCount'))
+    return result
 
 
 @app.route('/weatherCrime', methods=['GET'])
@@ -68,7 +68,8 @@ def weaCr():
     result = db.selectDB(envir.GetSQL("wC"))
     return result
 
-@app.route('/crime', methods=['GET'])
+
+@app.route('/humCrime', methods=['GET'])
 def humCr():
     db = DB("CRIMINALANALYSIS")
     result = db.selectDB(envir.GetSQL("hC"))
@@ -80,6 +81,21 @@ def tempCr():
     db = DB("CRIMINALANALYSIS")
     result = db.selectDB(envir.GetSQL("tC"))
     return result
+
+
+@app.route('/wsCrime', methods=['GET'])
+def wsCr():
+    db = DB("CRIMINALANALYSIS")
+    result = db.selectDB(envir.GetSQL("wsC"))
+    return result
+
+
+@app.route('/preCrime', methods=['GET'])
+def pCr():
+    db = DB("CRIMINALANALYSIS")
+    result = db.selectDB(envir.GetSQL("pC"))
+    return result
+
 
 @app.route('/crimeLocAnalysize', methods=['GET'])
 def cla():
@@ -104,12 +120,25 @@ def GetCrime():
     return result
 
 
+@app.route('/locAnalysis', methods=['POST'])
+def locAna():
+    db = DB("CRIMINALANALYSIS")
+    data = request.get_json()
+    print(data)
+    lat = float(data["lat"])
+    lng = float(data["lng"])
+    print(lat)
+    print(lng)
+    result = db.selectDB(loc.GetSQL("nearbyCriLoc"), (lat, lng, lat, lng))
+    print(result)
+    return result
+
+
 @app.route('/insertCrime', methods=['POST'])
 def Insert2Insert():
     requestData = request.get_json()
     result = data_manager.Insert2Insert(requestData)
     return result
-
 
 
 # if __name__ == "__main__":

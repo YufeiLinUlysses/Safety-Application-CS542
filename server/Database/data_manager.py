@@ -1,21 +1,21 @@
 # Author: Torres Fan
 # Email: xfan3@wpi.edu
-
-import crime_file
-import crime_type
-import loc
-import dbconnection
-import person_file
-import involve
-import envir
-import insert_table
-import relation_table
+from . import crime_file
+from . import crime_type
+from . import loc
+from . import dbconnection
+from . import person_file
+from . import involve
+from . import envir
+from . import insert_table
+from . import relation_table
 
 oDatabase = dbconnection.DB("CRIMINALANALYSIS")
 
+
 def InitDataBase():
     pass
-    #sequence is important here because we have foreign key constraint.
+    # sequence is important here because we have foreign key constraint.
     # try:
     #     oDatabase.dropDB(relation_table.GetSQL("DROP"))
     # except:
@@ -51,7 +51,7 @@ def InitDataBase():
 
     #
     # # Init for Location
-    #oDatabase.createDB(loc.GetSQL("CREATELOCATION"))
+    # oDatabase.createDB(loc.GetSQL("CREATELOCATION"))
     #oDatabase.insertDB(loc.GetSQL("INSERTALL"), loc.GetData())
     #
     # Init for Environment
@@ -62,47 +62,51 @@ def InitDataBase():
     # oDatabase.createDB(person_file.GetSQL("CreatePerson"))
     # oDatabase.insertDB(person_file.GetSQL("InsertALL"), person_file.GetData())
     # #
-    #Init for Crime File
+    # Init for Crime File
     oDatabase.createDB(crime_file.GetSql("CreateCrime"))
     CreateCrimeFileTrigger()
-    oDatabase.insertDB(crime_file.GetSql("InsertALLIgnore"), crime_file.GetData())
+    oDatabase.insertDB(crime_file.GetSql(
+        "InsertALLIgnore"), crime_file.GetData())
     #
     # #
     # Init for Involve
-    #oDatabase.createDB(involve.GetSQL("CreateInvolve"))
+    # oDatabase.createDB(involve.GetSQL("CreateInvolve"))
     #oDatabase.insertDB(involve.GetSQL("InsertALL"), involve.GetData())
     #
     #
     # # init for relation
     # oDatabase.createDB(relation_table.GetSQL("CREATE_RELATION"))
 
-
     #
     # #init for insert_table
     # oDatabase.createDB(insert_table.GetSql("CreateInsertion"))
-
-
 
 
 def test():
     print(GetCrimeFileByLoc(42.35779190, -71.13937378))
     print(GetCrimeFileByLoc(-1, -1))
 
+
 def GetCrimeFileByLoc(sLat, sLon):
     sSql = crime_file.GetSql("SelectCrimeByLoc")
     return oDatabase.selectDB(sSql, (sLat, sLon, sLat, sLon))
 
+
 def GetCrimeCases():
     print(oDatabase.selectDB(crime_file.GetSql("ColumnNumber")))
 
+
 def GetPeopleNumber():
     print(oDatabase.selectDB(person_file.GetSQL("ColumnNumber")))
+
 
 def CreateCrimeFileTrigger():
     oDatabase.DropTrigger(crime_file.GetSql("DropInsertTrigger"))
     oDatabase.CreateTrigger(crime_file.GetSql("InsertTrigger"))
 
-#TODO: return 1 if success?
+# TODO: return 1 if success?
+
+
 def Insert2Insert(insertData):
     sName = insertData.get("name")
     sNameState = insertData.get("nameState")
@@ -115,12 +119,12 @@ def Insert2Insert(insertData):
     sLon = insertData.get("longitude")
     sTime = insertData.get("ctime")
     sDate = insertData.get("cdate")
-    insertData = ((sName, sNameState, sCriminal, sVictim, sRelation,sType, sName, sLat, sLon, sTime, sDate))
+    insertData = ((sName, sNameState, sCriminal, sVictim,
+                   sRelation, sType, sName, sLat, sLon, sTime, sDate))
     oDatabase.insertDB(insert_table.GetSql("INSERT_SQL"), insertData)
 
-InitDataBase()
-test()
-GetCrimeCases()
-#GetPeopleNumber()
 
-
+# InitDataBase()
+# test()
+# GetCrimeCases()
+# GetPeopleNumber()

@@ -1,53 +1,67 @@
 <template>
-  <gmap-map :center="center" :zoom="12" style="width: 100%; height: 400px">
-    <gmap-marker
-      :key="index"
-      v-for="(m, index) in markers"
-      :position="m.position"
-      @click="center = m.position"
-    ></gmap-marker>
-  </gmap-map>
+  <div>
+    <gmap-map :center="center" :zoom="17" style="width: 100%; height: 400px">
+      <gmap-marker
+        :key="index"
+        v-for="(m, index) in markers"
+        :position="m.position"
+        @click="center = m.position"
+      ></gmap-marker>
+    </gmap-map>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
+var webcall = axios.create({
+  baseURL: "http://127.0.0.1:5000/",
+  timeout: 20000,
+  withCredentials: false,
+  headers: { "Content-Type": "application/json" },
+});
 export default {
   data() {
     return {
       lat: 0,
       lng: 0,
-      radius: "5",
-      type: "restaurant",
-      markers: [ 
-        { position: { lat: 42.3061, lng: -71.0827 } },
-        { position: { lat: 42.327, lng: -71.1056 } },
-        { position: { lat: 42.3315, lng: -71.0709 } },
-      ],
+      markers: [],
+      result: [],
       center: { lat: 0, lng: 0 },
     };
   },
   mounted() {
     this.center.lat = this.$store.state.location.lat;
     this.center.lng = this.$store.state.location.lng;
-    this.loadData();
+    this.getLoc();
   },
   methods: {
-    loadData() {
-      const URL =
-        "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=restaurants&inputtype=textquery&fields=plus_code,name&locationbias=circle:2000@" +
-        String(this.lat) +
-        "," +
-        String(this.lng) +
-        "&key=AIzaSyCESDQdWk4BVXVLLwkKQijvexrPnU6UkAk";
-      axios
-        .get(URL)
-        .then((response) => {
-          this.places = response.data.results;
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
+    getLoc() {
+      var vm = this;
+      try {
+        webcall
+          .post("/locAnalysis", this.$store.state.location)
+          .then(async function (response) {
+            var temp = await JSON.parse(JSON.stringify(response.data));
+            if (temp.length == 0) {
+              alert(
+                "Sorry, We do not have any infor on the location you searched"
+              );
+            }
+            var result = [];
+            for (var i of temp) {
+              result.push({
+                position: {
+                  lat: parseFloat(i["lat"]),
+                  lng: parseFloat(i["lon"]),
+                },
+              });
+            }
+            vm.markers = result;
+          });
+      } catch (err) {
+        console.log("error");
+        alert(err);
+      }
     },
   },
 };

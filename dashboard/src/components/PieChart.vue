@@ -1,20 +1,17 @@
-#author: xli14@WPI.EDU
-
 <template>
-  <div id='app'>
-  <GChart
-    :settings="{packages: ['bar']}"    
-    :data="chartData"
-    :options="chartOptions"
-    :createChart="(el, google) => new google.charts.Bar(el)"
-    @ready="onChartReady"
-  />
+  <div id="app">
+    <GChart
+      type="PieChart"
+      :data="chartData"
+      :options="chartOptions"
+    />
   </div>
 </template>
 
 <script>
-import { GChart } from 'vue-google-charts'
+import { GChart } from "vue-google-charts";
 import axios from "axios";
+// import { delete } from 'vue/types/umd';
 
 var webcall = axios.create({
   baseURL: "http://127.0.0.1:5000/",
@@ -24,11 +21,12 @@ var webcall = axios.create({
 });
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    GChart
+    GChart,
   },
-  data () {
+
+data () {
     return {
       chartsLib: null, 
       // Array will be automatically processed with visualization.arrayToDataTable function
@@ -43,29 +41,9 @@ export default {
       if (!this.chartsLib) return null
       return this.chartsLib.charts.Bar.convertOptions({
         chart: {
-          title: 'Weather frequency',
-          // subtitle: '我才不会那么轻易狗带'
+          title: 'Pie Chart'
         },
-        bars: 'horizontal', // Required for Material Bar Charts.
-        hAxis: {
-            title: 'here is your x-axis title',
-            minxValue: 112, 
-            gridlines: { count: 10 },
-            format: 'decimal', 
-            direction: -1,
-            // baselineColor: 'red',
-            // textStyle: {color: 'pink'},
-            // ticks: [500,1000,1500,2000,] 
-            // baselineColor: 'red'
-        },
-        vAxis: {
-            title: 'here is your y-axis title',
-            baselineColor: 'red',
-            minValue: 112,
-            direction: -1 ,
-            // ticks: [500,1000,1500,2000,] 
-            // gridlines: { count: 10 }
-        },
+        
         height: 400,
         bar: {groupWidth: '75%'},
         colors: ['#7570b3'],
@@ -81,20 +59,27 @@ export default {
     },
     createGraph() {
       var vm = this;
-      var url = "/weathercnt";
+      var url = "/typecnt";
       try {
         webcall.get(url).then(async function (response) {
           var temp = await JSON.parse(JSON.stringify(response.data));
-          var result = [['text', 'value']]
-          for(var i of temp){
+          var result = [['DESCRIPTION', 'ct']]
+          temp[5]['DESCRIPTION'] = 'OTHER'
+          for(var i= 6; i < temp.length; i ++){
+            temp[5]['ct'] =  parseInt(temp[i]['ct']) + parseInt(temp[5]['ct'])
+            temp.splice(i,1) 
+            i--
+          }
+          for(var j of temp){
             var cur = []
-            cur.push(i['text'])
-            cur.push(parseInt(i['value']))
+            cur.push(j['DESCRIPTION'])
+            cur.push(parseInt(j['ct']))
             result.push(cur)
           }
           // alert(result)
           // console.log(result)
-          vm.chartData = result.slice(0,11)
+          // vm.chartData = result.slice(0,11)
+          vm.chartData = result
         });
       } catch (err) {
         console.log("error");
@@ -106,4 +91,5 @@ export default {
     this.createGraph();
   }
 }
+
 </script>
