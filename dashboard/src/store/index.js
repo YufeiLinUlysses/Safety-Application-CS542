@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     location: null,
     status: true,
+    table: [],
   },
   getters: {
     locToString: (state) => {
@@ -28,6 +29,9 @@ export default new Vuex.Store({
     },
     updateStatus: (state, newStatus) => {
       state.status = newStatus
+    },
+    updateTable: (state, newTable) => {
+      state.table = newTable
     }
   },
   actions: {

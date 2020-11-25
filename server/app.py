@@ -149,18 +149,19 @@ def Insert2Insert():
 @app.route('/requestInsert', methods=['GET'])
 def RequestInsert():
     db = DB("CRIMINALANALYSIS")
-    return db.selectDB("SELECT_ALL")
+    result = db.selectDB(insert_table.GetSql("SELECT_ALL"))
+    return result
 
-@app.route('/crimeConfirm', methods=['GET'])
+
+@app.route('/crimeConfirm', methods=['POST'])
 def ConfirmRequest():
     db = DB("CRIMINALANALYSIS")
-    #confirmData = request.get_json()
-
-    #dataList = confirmData.get("dataList")
-    dataList = [(1, True)]
-    for id, bConfirm in dataList:
-        db.updataDB(insert_table.GetSql("UPDATE_TABLE"), (bConfirm, id))
-
+    confirmData = request.get_json()
+    print(confirmData)
+    for i in confirmData:
+        queryID = i["ID"]
+        conf = i["Confirmed"]
+        db.updataDB(insert_table.GetSql("UPDATE_TABLE"), (conf, queryID))
 
     #iCrimeID = int(db.selectDB(cf.GetSql("SelectMAXID")).get("max(CRIMEID)")) + 1
     iCrimeID = "319073"
@@ -168,13 +169,6 @@ def ConfirmRequest():
     db.insertDB(cf.GetSql("InsertFromInsertion"), [(policeDistrict, iCrimeID)])
 
     return db.selectDB(insert_table.GetSql("SELECT_ALL"))
-
-
-
-
-
-
-
 
 
 # if __name__ == "__main__":

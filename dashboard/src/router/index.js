@@ -4,7 +4,6 @@ import Home from '../views/Home.vue'
 import WA from '../views/WeatherAnalysis.vue'
 import CA from '../views/CriminalAnalysis.vue'
 import LA from '../views/LocationAnalysis.vue'
-import TT from '../views/Test_Torres.vue'
 import TS from '../views/Test_Sophia.vue'
 import TJ from '../views/Test_Jeff.vue'
 import Adm from "../views/Admin.vue"
@@ -45,11 +44,6 @@ const routes = [
     path: '/admin',
     name: 'ADM',
     component: Adm
-  },
-  {
-    path: '/testTorres',
-    name: 'tt',
-    component: TT
   },
   {
     path: '/testJeff',

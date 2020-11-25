@@ -167,6 +167,35 @@ export default {
       // Trigger submit handler
       this.handleSubmit();
     },
+    loadData() {
+      var vm = this;
+      try {
+        webcall.get("/requestInsert").then(async function (response) {
+          var temp = await JSON.parse(JSON.stringify(response.data));
+          var result = [];
+          for (var i of temp) {
+            var cur = {};
+            cur["ID"] = i["InsertID"];
+            cur["Lat"] = i["LAT"];
+            cur["Lng"] = i["LON"];
+            var curT = new Date(i["TIMESTAMP"] * 1000);
+            cur["Date"] =
+              curT.getFullYear() + "-" + curT.getMonth() + "-" + curT.getDate();
+            cur["Hour"] = i["TIMESLOT"];
+            cur["Relation"] = i["Relation"];
+            cur["CriminalID"] = i["CriminalID"];
+            cur["VictimID"] = i["VictimID"];
+            cur["CrimeType"] = i["CrimeType"];
+            cur["Confirmed"] = false;
+            result.push(cur);
+          }
+          vm.$store.commit("updateTable", result);
+        });
+      } catch (err) {
+        console.log("error");
+        alert(err);
+      }
+    },
     handleSubmit() {
       // Exit when the form isn't valid
       if (!this.checkFormValidity()) {
@@ -188,9 +217,12 @@ export default {
         webcall
           .post("/insertCrime", this.report)
           .then(async function (response) {
-            vm.result = response.data;
-            console.log(response.data);
-            console.log(vm.result);
+            if (response.data.success) {
+              alert("Your report has been successfully inserted.");
+            } else {
+              alert("Please contact the database manager.");
+            }
+            vm.loadData();
           });
       } catch (err) {
         console.log("error");
