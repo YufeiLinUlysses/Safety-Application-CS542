@@ -19,7 +19,8 @@ INSERTION_SQL = {"CreateInsertion": """CREATE Table Insertion
                  "SELECT_ALL": "Select * from insertion",
 
 
-                 "UPDATE_TABLE": " UPDATE Insertion SET CONFIRMED = %s WHERE InsertID = %s;"
+                 "UPDATE_TABLE": " UPDATE Insertion SET CONFIRMED = %s WHERE InsertID = %s;",
+                 "DELETE_CONFIRM": "DELETE FROM Insertion where CONFIRMED = True",
                  }
 
 

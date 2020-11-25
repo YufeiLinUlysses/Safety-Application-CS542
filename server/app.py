@@ -162,11 +162,18 @@ def ConfirmRequest():
         queryID = i["ID"]
         conf = i["Confirmed"]
         db.updataDB(insert_table.GetSql("UPDATE_TABLE"), (conf, queryID))
-
-    #iCrimeID = int(db.selectDB(cf.GetSql("SelectMAXID")).get("max(CRIMEID)")) + 1
-    iCrimeID = "319073"
+    CrimeID = db.selectDB(cf.GetSql("SelectMAXID"))
+    CrimeIDList= json.loads(CrimeID)
+    iCrimeID = int(CrimeIDList[0].get('max(CRIMEID)')) + 1
     policeDistrict = "A1"
-    db.insertDB(cf.GetSql("InsertFromInsertion"), [(policeDistrict, iCrimeID)])
+    db.InsertWithErrorMessage(cf.GetSql("InsertFromInsertion"), [(policeDistrict, iCrimeID)])
+    db.InsertWithErrorMessage(cf.GetSql("InsertCrimePeople"))
+    db.InsertWithErrorMessage(cf.GetSql("InsertVictimPeople"))
+    db.InsertWithErrorMessage(cf.GetSql("InsertInvolve"), [(iCrimeID)])
+    db.InsertWithErrorMessage(cf.GetSql("InsertInvolveCrime"), [(iCrimeID)])
+    db.InsertWithErrorMessage(cf.GetSql("InsertRelation"))
+    db.InsertWithErrorMessage(cf.GetSql("InsertCrimePeople"))
+    db.DeletetDB(insert_table.GetSql("DELETE_CONFIRM"))
 
     return db.selectDB(insert_table.GetSql("SELECT_ALL"))
 

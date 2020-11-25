@@ -66,12 +66,23 @@ class DB():
         sql = uInsert
         self.db.ping(reconnect=True)
         try:
-
             dbcur = self.db.cursor()
             if uData == None:
                 dbcur.execute(sql)
             else:
                 dbcur.executemany(sql, insertData)
+            self.db.commit()
+        except Exception as e:
+            print(e)
+
+    def DeletetDB(self, sSql, uData=None):
+        self.db.ping(reconnect=True)
+        try:
+            dbcur = self.db.cursor()
+            if uData == None:
+                dbcur.execute(sSql)
+            else:
+                dbcur.executemany(sSql, uData)
             self.db.commit()
         except Exception as e:
             print(e)
@@ -86,6 +97,21 @@ class DB():
                 print(e)
                 continue
         self.db.commit()
+
+    def InsertWithErrorMessage(self, sSql, data=None):
+        self.db.ping(reconnect=True)
+        try:
+            dbcur = self.db.cursor()
+            if data == None:
+                dbcur.execute(sSql)
+            else:
+                dbcur.executemany(sSql, data)
+            self.db.commit()
+
+        except Exception as e:
+            print(e)
+            return False
+        return True
 
     def selectDB(self, uSelect, uData=None):
         sql = uSelect

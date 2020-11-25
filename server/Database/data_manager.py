@@ -69,17 +69,17 @@ def InitDataBase():
     # "InsertALLIgnore"), crime_file.GetData())
     #
     # #
-    # Init for Involve
-    # oDatabase.createDB(involve.GetSQL("CreateInvolve"))
-    # oDatabase.insertDB(involve.GetSQL("InsertALL"), involve.GetData())
-    #
-    #
-    # # init for relation
-    # oDatabase.createDB(relation_table.GetSQL("CREATE_RELATION"))
+    #Init for Involve
+    oDatabase.createDB(involve.GetSQL("CreateInvolve"))
+    oDatabase.insertDB(involve.GetSQL("InsertALL"), involve.GetData())
+
+
+    # init for relation
+    oDatabase.createDB(relation_table.GetSQL("CREATE_RELATION"))
 
     #
     # #init for insert_table
-    oDatabase.createDB(insert_table.GetSql("CreateInsertion"))
+    #oDatabase.createDB(insert_table.GetSql("CreateInsertion"))
 
 
 def createEnvSummary():

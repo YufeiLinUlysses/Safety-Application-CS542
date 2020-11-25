@@ -84,14 +84,40 @@ CRIME_SQL = {"CreateCrime": """CREATE TABLE CRIMEFILE
 
              "InsertFromInsertion":"""
              INSERT INTO CRIMEFILE (LAT, LON, TIMESTAMP, TIMESLOT, TYPEID, POLICE_DISTRICT, CRIMEID)
-                        VALUES(Select I.LAT, I.LON, I.TIMESTAMP, I.TIMESLOT, C.TYPEID
-                        From Insertion I, CrimeType C
-                        where I.CONFIRMED = True and C.DESCRIPTION = I.CrimeType), %s, %s)
-             """
+                        Select I.LAT, I.LON, I.TIMESTAMP, I.TIMESLOT, C.TYPEID, %s as POLICE_DISTRICT, %s as CRIMEID
+                        From Insertion I, CrimeType C 
+                        where I.CONFIRMED = True and C.DESCRIPTION = I.CrimeType""",
 
-
-
-
+            "InsertCrimePeople":"""
+             INSERT INTO PERSONFILE (pid)
+                Select CriminalID
+                From Insertion 
+                where CONFIRMED = True
+             """,
+            "InsertVictimPeople":"""
+             INSERT INTO PERSONFILE (pid)
+                        Select VictimID
+                        From Insertion
+                        where CONFIRMED = True
+             """,
+            "InsertInvolve":"""
+             INSERT INTO INVOLVE (pid, isVictim, crimeID)
+                        Select VictimID, 'Y' as isVictim, %s as crimeID
+                        From Insertion
+                        where CONFIRMED= True
+             """,
+            "InsertInvolveCrime":"""
+             INSERT INTO INVOLVE (pid, isVictim, crimeID)
+                        Select CriminalID, 'N' as isVictim, %s as crimeID
+                        From Insertion
+                        where CONFIRMED= True
+             """,
+            "InsertRelation":"""
+             INSERT INTO RelationTable (pid1, pid2, relation)
+                        Select VictimID, CriminalID, Relation
+                        From Insertion
+                        where CONFIRMED = True   
+             """,
              }
 
 
