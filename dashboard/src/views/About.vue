@@ -1,16 +1,17 @@
 <template>
   <b-row>
     <b-col></b-col>
-    <b-col
-      ><h3 class="text-center">About Our Project</h3>
+    <b-col cols="6"
+      ><h3 class="text-center mb-3">About Our Project</h3>
       <p>
-        Motivated by the idea of reducing crime like the burglary happened
-        recently around campus, our group decides to offer a new safety web
-        application that provides a safety report and an inquiry functionality
-        to advise residents for their daily life in Boston. We choose to look at
-        Boston because we would like to look at a place with more sufficient
-        data in order to develop a methodology for analyze crime data. For our
-        safety report we will include the following feature:
+        &nbsp; &nbsp; &nbsp; &nbsp; Motivated by the idea of reducing crime like
+        the burglary happened recently around campus, our group decides to offer
+        a new safety web application that provides a safety report and an
+        inquiry functionality to advise residents for their daily life in
+        Boston. We choose to look at Boston because we would like to look at a
+        place with more sufficient data in order to develop a methodology for
+        analyze crime data. For our safety report we will include the following
+        feature:
       </p>
       <ol>
         <li>
@@ -48,3 +49,9 @@
     <b-col></b-col>
   </b-row>
 </template>
+
+<style scoped>
+p{
+  
+}
+</style>

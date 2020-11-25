@@ -1,5 +1,6 @@
 import json
 from flask import Flask, request
+import datetime
 from Database.dbconnection import DB
 from Database import envir, involve, loc, person_file as pf, crime_file as cf, crime_type as ct, insert_table
 app = Flask(__name__)
@@ -124,21 +125,57 @@ def locAna():
 def Insert2Insert():
     db = DB("CRIMINALANALYSIS")
     insertData = request.get_json()
-    sName = insertData.get("name")
-    sNameState = insertData.get("nameState")
-    sCriminal = insertData.get("criminal")
-    sVictim = insertData.get("victim")
-    sRelation = insertData.get("relation")
-    sType = insertData.get("type")
-    sName = insertData.get("name")
-    sLat = insertData.get("latitude")
-    sLon = insertData.get("longitude")
-    sTime = insertData.get("ctime")
-    sDate = insertData.get("cdate")
-    insertData = ((sName, sNameState, sCriminal, sVictim,
-                   sRelation, sType, sName, sLat, sLon, sTime, sDate))
-    db.insertDB(insert_table.GetSql("INSERT_SQL"), insertData)
-    return 1
+    lat = insertData.get("Latitude")
+    lng = insertData.get("Longitude")
+    cDate = insertData.get("Date")
+    cTime = insertData.get("Time")
+    relation = insertData.get("Relation")
+    criminal = insertData.get("Criminal")
+    victim = insertData.get("Victim")
+    ctype = insertData.get("Type")
+    dt = datetime.datetime.strptime(cDate, '%Y-%m-%d')
+    dt = dt.timestamp()
+
+    insertData = [(lat, lng, dt, cTime, relation, criminal, victim, ctype)]
+    iBefore = db.selectDB(insert_table.GetSql("TABLE_COUNT"))
+    db.insertByOneDB(insert_table.GetSql("INSERT_SQL"), insertData)
+    iAfter = db.selectDB(insert_table.GetSql("TABLE_COUNT"))
+    if iAfter > iBefore:
+        return json.dumps({"success": True})
+    else:
+        return json.dumps({"success": False})
+
+
+@app.route('/requestInsert', methods=['GET'])
+def RequestInsert():
+    db = DB("CRIMINALANALYSIS")
+    result = db.selectDB(insert_table.GetSql("SELECT_ALL"))
+    return result
+
+
+@app.route('/crimeConfirm', methods=['POST'])
+def ConfirmRequest():
+    db = DB("CRIMINALANALYSIS")
+    confirmData = request.get_json()
+    print(confirmData)
+    for i in confirmData:
+        queryID = i["ID"]
+        conf = i["Confirmed"]
+        db.updataDB(insert_table.GetSql("UPDATE_TABLE"), (conf, queryID))
+    CrimeID = db.selectDB(cf.GetSql("SelectMAXID"))
+    CrimeIDList= json.loads(CrimeID)
+    iCrimeID = int(CrimeIDList[0].get('max(CRIMEID)')) + 1
+    policeDistrict = "A1"
+    db.InsertWithErrorMessage(cf.GetSql("InsertFromInsertion"), [(policeDistrict, iCrimeID)])
+    db.InsertWithErrorMessage(cf.GetSql("InsertCrimePeople"))
+    db.InsertWithErrorMessage(cf.GetSql("InsertVictimPeople"))
+    db.InsertWithErrorMessage(cf.GetSql("InsertInvolve"), [(iCrimeID)])
+    db.InsertWithErrorMessage(cf.GetSql("InsertInvolveCrime"), [(iCrimeID)])
+    db.InsertWithErrorMessage(cf.GetSql("InsertRelation"))
+    db.InsertWithErrorMessage(cf.GetSql("InsertCrimePeople"))
+    db.DeletetDB(insert_table.GetSql("DELETE_CONFIRM"))
+
+    return db.selectDB(insert_table.GetSql("SELECT_ALL"))
 
 
 # if __name__ == "__main__":

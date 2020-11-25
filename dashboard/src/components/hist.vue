@@ -16,8 +16,8 @@
     </b-form-select>
     <br />
     <br />
+    <h5 class="text-center">{{ curtitle }}</h5>
     <GChart type="Histogram" :data="chartData" :options="chartOptions" />
-    <b-form-input type="range"></b-form-input>
   </div>
 </template>
 
@@ -39,14 +39,12 @@ export default {
     return {
       // Array will be automatically processed with visualization.arrayToDataTable function
       chartData: [],
-      buckNum: 10,
       chartOptions: {
-        title: "Lengths of dinosaurs, in meters",
         legend: {
           position: "none",
         },
-        histogram: { bucketSize: 10 },
       },
+      curtitle: "",
       selected: {
         url: "/humCrime",
         key: "AVGH",
@@ -96,7 +94,7 @@ export default {
         webcall.get(conn.url).then(async function (response) {
           var temp = await JSON.parse(JSON.stringify(response.data));
           var result = [["T", key]];
-          vm.chartOptions.title = conn.title;
+          vm.curtitle = conn.title;
           for (var i of temp) {
             var cur = [];
             cur.push(i["T"]);

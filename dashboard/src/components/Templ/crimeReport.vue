@@ -107,6 +107,13 @@
 </template>
 
 <script>
+import axios from "axios";
+var webcall = axios.create({
+  baseURL: "http://127.0.0.1:5000/",
+  timeout: 20000,
+  withCredentials: false,
+  headers: { "Content-Type": "application/json" },
+});
 export default {
   data() {
     return {
@@ -160,6 +167,35 @@ export default {
       // Trigger submit handler
       this.handleSubmit();
     },
+    loadData() {
+      var vm = this;
+      try {
+        webcall.get("/requestInsert").then(async function (response) {
+          var temp = await JSON.parse(JSON.stringify(response.data));
+          var result = [];
+          for (var i of temp) {
+            var cur = {};
+            cur["ID"] = i["InsertID"];
+            cur["Lat"] = i["LAT"];
+            cur["Lng"] = i["LON"];
+            var curT = new Date(i["TIMESTAMP"] * 1000);
+            cur["Date"] =
+              curT.getFullYear() + "-" + curT.getMonth() + "-" + curT.getDate();
+            cur["Hour"] = i["TIMESLOT"];
+            cur["Relation"] = i["Relation"];
+            cur["CriminalID"] = i["CriminalID"];
+            cur["VictimID"] = i["VictimID"];
+            cur["CrimeType"] = i["CrimeType"];
+            cur["Confirmed"] = false;
+            result.push(cur);
+          }
+          vm.$store.commit("updateTable", result);
+        });
+      } catch (err) {
+        console.log("error");
+        alert(err);
+      }
+    },
     handleSubmit() {
       // Exit when the form isn't valid
       if (!this.checkFormValidity()) {
@@ -175,6 +211,24 @@ export default {
       var curTime = Number(this.ctime.split(":")[0]);
       this.report["Time"] = curTime - (curTime % 3);
       console.log(this.report);
+
+      var vm = this;
+      try {
+        webcall
+          .post("/insertCrime", this.report)
+          .then(async function (response) {
+            if (response.data.success) {
+              alert("Your report has been successfully inserted.");
+            } else {
+              alert("Please contact the database manager.");
+            }
+            vm.loadData();
+          });
+      } catch (err) {
+        console.log("error");
+        alert(err);
+      }
+
       // Hide the modal manually
       this.$nextTick(() => {
         this.$bvModal.hide("modal-prevent-closing");
