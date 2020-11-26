@@ -70,25 +70,21 @@ def InitDataBase():
     #
     # #
     #Init for Involve
-    oDatabase.createDB(involve.GetSQL("CreateInvolve"))
-    oDatabase.insertDB(involve.GetSQL("InsertALL"), involve.GetData())
+    # oDatabase.createDB(involve.GetSQL("CreateInvolve"))
+    # oDatabase.insertDB(involve.GetSQL("InsertALL"), involve.GetData())
 
 
     # init for relation
     oDatabase.createDB(relation_table.GetSQL("CREATE_RELATION"))
 
     #
-    # #init for insert_table
-    #oDatabase.createDB(insert_table.GetSql("CreateInsertion"))
+    #init for insert_table
+    oDatabase.createDB(insert_table.GetSql("CreateInsertion"))
 
 
 def createEnvSummary():
     oDatabase.createV(envir.GetSQL("createViewSum"))
 
-
-def test():
-    print(GetCrimeFileByLoc(42.35779190, -71.13937378))
-    print(GetCrimeFileByLoc(-1, -1))
 
 
 def GetCrimeFileByLoc(sLat, sLon):
@@ -116,7 +112,6 @@ def AddDisFunc():
 
 InitDataBase()
 # createEnvSummary()
-# test()
 # GetCrimeCases()
 # GetPeopleNumber()
 # AddDisFunc()

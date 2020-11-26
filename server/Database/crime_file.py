@@ -14,7 +14,7 @@ CRIME_SQL = {"CreateCrime": """CREATE TABLE CRIMEFILE
             LAT FLOAT(24, 8) Not NULL, 
 			LON FLOAT(24, 8) Not NULL, 
 			street VarChar(255),
-			POLICE_DISTRICT VARCHAR(25) Not NULL,
+			POLICE_DISTRICT VARCHAR(25),
 			ERRORINDICATE VARCHAR(25) NOT NULL,
             FOREIGN KEY (POLICE_DISTRICT) REFERENCES LOCATION(POLICE_DISTRICT),
             FOREIGN KEY (TYPEID) REFERENCES CRIMETYPE(TYPEID),
@@ -84,9 +84,9 @@ CRIME_SQL = {"CreateCrime": """CREATE TABLE CRIMEFILE
 
              "InsertFromInsertion":"""
              INSERT INTO CRIMEFILE (LAT, LON, TIMESTAMP, TIMESLOT, TYPEID, POLICE_DISTRICT, CRIMEID)
-                        Select I.LAT, I.LON, I.TIMESTAMP, I.TIMESLOT, C.TYPEID, %s as POLICE_DISTRICT, %s as CRIMEID
+                        Select I.LAT, I.LON, I.TIMESTAMP, I.TIMESLOT, C.TYPEID, I.POLICE_DISTRICT, %s as CRIMEID
                         From Insertion I, CrimeType C 
-                        where I.CONFIRMED = True and C.DESCRIPTION = I.CrimeType""",
+                        where I.CONFIRMED = True and I.CrimeType = C.DESCRIPTION""",
 
             "InsertCrimePeople":"""
              INSERT INTO PERSONFILE (pid)
@@ -137,3 +137,5 @@ def GetData():
 
 def GetSql(sql):
     return CRIME_SQL[sql]
+
+

@@ -133,10 +133,11 @@ def Insert2Insert():
     criminal = insertData.get("Criminal")
     victim = insertData.get("Victim")
     ctype = insertData.get("Type")
+    policeDistrict = insertData.get("PoliceDistrict")
     dt = datetime.datetime.strptime(cDate, '%Y-%m-%d')
     dt = dt.timestamp()
 
-    insertData = [(lat, lng, dt, cTime, relation, criminal, victim, ctype)]
+    insertData = [(lat, lng, dt, cTime, relation, criminal, victim, ctype, policeDistrict)]
     iBefore = db.selectDB(insert_table.GetSql("TABLE_COUNT"))
     db.insertByOneDB(insert_table.GetSql("INSERT_SQL"), insertData)
     iAfter = db.selectDB(insert_table.GetSql("TABLE_COUNT"))
@@ -165,8 +166,7 @@ def ConfirmRequest():
     CrimeID = db.selectDB(cf.GetSql("SelectMAXID"))
     CrimeIDList= json.loads(CrimeID)
     iCrimeID = int(CrimeIDList[0].get('max(CRIMEID)')) + 1
-    policeDistrict = "A1"
-    db.InsertWithErrorMessage(cf.GetSql("InsertFromInsertion"), [(policeDistrict, iCrimeID)])
+    db.InsertWithErrorMessage(cf.GetSql("InsertFromInsertion"), [(iCrimeID)])
     db.InsertWithErrorMessage(cf.GetSql("InsertCrimePeople"))
     db.InsertWithErrorMessage(cf.GetSql("InsertVictimPeople"))
     db.InsertWithErrorMessage(cf.GetSql("InsertInvolve"), [(iCrimeID)])

@@ -23,8 +23,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/Database/crime_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/Database/crime_file.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/Database/data_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/Database/data_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/Database/dbconnection.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/Database/dbconnection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/Database/insert_table.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/Database/insert_table.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -49,7 +47,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../CS513APPIdentify" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
   </component>
   <component name="RunManager" selected="Python.app">
@@ -196,30 +194,38 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1606033355881" />
-    <state width="1515" height="286" key="GridCell.Tab.0.bottom" timestamp="1606271062109">
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1606353133109">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="286" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606271062109" />
-    <state width="1515" height="286" key="GridCell.Tab.0.center" timestamp="1606271062109">
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1606353133109" />
+    <state width="1515" height="181" key="GridCell.Tab.0.bottom" timestamp="1606357402426">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="286" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1606271062109" />
-    <state width="1515" height="286" key="GridCell.Tab.0.left" timestamp="1606271062109">
+    <state width="1515" height="181" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606357402426" />
+    <state width="1515" height="181" key="GridCell.Tab.0.center" timestamp="1606357402426">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="286" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1606271062109" />
-    <state width="1515" height="286" key="GridCell.Tab.0.right" timestamp="1606271062109">
+    <state width="1515" height="181" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1606357402426" />
+    <state width="1515" height="181" key="GridCell.Tab.0.left" timestamp="1606357402426">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="286" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1606271062109" />
+    <state width="1515" height="181" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1606357402426" />
+    <state width="1515" height="181" key="GridCell.Tab.0.right" timestamp="1606357402426">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="181" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1606357402426" />
+    <state x="519" y="114" key="RollbackChangesDialog" timestamp="1606356501402">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="519" y="114" key="RollbackChangesDialog/0.0.1536.824@0.0.1536.824" timestamp="1606356501402" />
     <state x="270" y="57" key="SettingsEditor" timestamp="1603592491028">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="270" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1603592491028" />
-    <state x="468" y="144" width="694" height="536" key="find.popup" timestamp="1606181218352">
+    <state x="468" y="144" width="694" height="536" key="find.popup" timestamp="1606356969575">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="468" y="144" width="694" height="536" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1606181218352" />
+    <state x="468" y="144" width="694" height="536" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1606356969575" />
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1606265899556">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
