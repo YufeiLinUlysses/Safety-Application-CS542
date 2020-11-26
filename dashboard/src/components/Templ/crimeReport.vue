@@ -101,6 +101,17 @@
             type="number"
           ></b-form-input>
         </b-form-group>
+        <b-form-group label="Police District" label-for="pd">
+          <b-form-select
+            id="pd"
+            v-model="police"
+            value-field="value"
+            text-field="text"
+            :options="policeD"
+            style="width: 150px"
+          >
+          </b-form-select>
+        </b-form-group>
       </form>
     </b-modal>
   </div>
@@ -119,6 +130,7 @@ export default {
     return {
       relation: "Not Known",
       type: "Not Known",
+      police: "Not Known",
       name: "",
       criminal: "",
       cdate: null,
@@ -138,6 +150,11 @@ export default {
         { text: "Burglary", value: "Burglary" },
         { text: "Murder", value: "Murder" },
       ],
+      policeD: [
+        { text: "Not Known", value: "Not Known" },
+        { text: "C12", value: "C12" },
+        { text: "C13", value: "C13" },
+      ],
       report: {},
     };
   },
@@ -155,11 +172,11 @@ export default {
       this.victim = "";
       this.relation = "Not Known";
       this.type = "Not Known";
-      this.name = "";
       this.latitude = null;
       this.longitude = null;
       this.ctime = null;
       this.cdate = null;
+      this.police = "Not Known";
     },
     handleOk(bvModalEvt) {
       // Prevent modal from closing
@@ -210,6 +227,7 @@ export default {
       this.report["Date"] = this.cdate;
       var curTime = Number(this.ctime.split(":")[0]);
       this.report["Time"] = curTime - (curTime % 3);
+      this.report["PoliceDistrict"] = this.police;
       console.log(this.report);
 
       var vm = this;

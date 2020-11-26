@@ -8,11 +8,12 @@ INSERTION_SQL = {"CreateInsertion": """CREATE Table Insertion
                                         CriminalID varchar(100),
                                         VictimID varchar(100),
                                         CrimeType varchar(50),
+                                        POLICE_DISTRICT varchar(10),
                                         CONFIRMED BOOL DEFAULT FALSE,
                                         Primary key (insertID))""",
                  "INSERT_SQL": '''INSERT INTO Insertion (LAT, LON, TIMESTAMP, TIMESLOT, RELATION, 
-                                  CRIMINALID, VICTIMID, CRIMETYPE) 
-                                  VALUES(%s, %s, %s, %s, %s, %s, %s, %s)''',
+                                  CRIMINALID, VICTIMID, CRIMETYPE, POLICE_DISTRICT) 
+                                  VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)''',
 
                  "TABLE_COUNT": "Select count(*) From insertion",
 
