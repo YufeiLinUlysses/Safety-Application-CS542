@@ -160,7 +160,11 @@ CRIME_SQL = {"CreateCrime": """CREATE TABLE CRIMEFILE
                                         CRIMETYPE
                                         ON FINAL.TYPEID=CRIMETYPE.TYPEID) RESULT
                                         GROUP BY DESCRIPTION 
-                                        ORDER BY NUM DESC"""
+                                        ORDER BY NUM DESC""",
+             "DistrictCount": """SELECT DISTRICT, COUNT(*) 
+                                 FROM CRIMEFILE JOIN LOCATION 
+                                 ON CRIMEFILE.POLICE_DISTRICT = LOCATION.POLICE_DISTRICT 
+                                 GROUP BY DISTRICT"""
              }
 
 

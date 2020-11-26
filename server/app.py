@@ -154,7 +154,6 @@ def ctypes():
     result = db.selectDB(ct.GetSQL("SelectAllTypes"))
     return result
 
-
 @app.route('/locCTypeCount', methods=["POST"])
 def cTypeCount():
     db = DB("CRIMINALANALYSIS")
