@@ -44,7 +44,7 @@ export default {
             var temp = await JSON.parse(JSON.stringify(response.data));
             if (temp.length == 0) {
               alert(
-                "Sorry, We do not have any infor on the location you searched"
+                "Sorry, We do not have any info on the location you searched"
               );
             }
             var result = [];

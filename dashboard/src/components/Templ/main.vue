@@ -28,6 +28,7 @@
             >
           </b-nav-item-dropdown>
           <CR />
+          <ADMIN />
           <v-spacer />
           <b-nav-form>
             <b-form-input
@@ -48,6 +49,7 @@
 
 <script>
 import CR from "./crimeReport.vue";
+import ADMIN from "./admin.vue";
 export default {
   data() {
     return {
@@ -57,6 +59,7 @@ export default {
   },
   components: {
     CR,
+    ADMIN,
   },
   methods: {
     goto: function (page) {
@@ -80,7 +83,7 @@ export default {
     getValue() {
       return this.$store.getters.locToString;
     },
-  }
+  },
 };
 </script>
 

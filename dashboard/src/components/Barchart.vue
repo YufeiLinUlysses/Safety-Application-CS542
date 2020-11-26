@@ -75,21 +75,29 @@ export default {
     onChartReady(chart, google) {
       this.chartsLib = google;
     },
-    createGraph() {
+    timeCount() {
       var vm = this;
-      var url = "/weathercnt";
       try {
-        webcall.get(url).then(async function (response) {
-          var temp = await JSON.parse(JSON.stringify(response.data));
-          var result = [["text", "value"]];
-          for (var i of temp) {
-            var cur = [];
-            cur.push(i["text"]);
-            cur.push(parseInt(i["value"]));
-            result.push(cur);
-          }
-          vm.chartData = result.slice(0, 11);
-        });
+        webcall
+          .post("/locTimeCount", this.$store.state.location)
+          .then(async function (response) {
+            var temp = await JSON.parse(JSON.stringify(response.data));
+            if (temp.length == 0) {
+              alert(
+                "Sorry, We do not have any info on the location you searched"
+              );
+            }
+            var result = [];
+            for (var i of temp) {
+              result.push({
+                position: {
+                  lat: parseFloat(i["LAT"]),
+                  lng: parseFloat(i["LON"]),
+                },
+              });
+            }
+            vm.markers = result;
+          });
       } catch (err) {
         console.log("error");
         alert(err);
@@ -97,7 +105,7 @@ export default {
     },
   },
   mounted() {
-    this.createGraph();
+    this.timeCount();
   },
 };
 </script>

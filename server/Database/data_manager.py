@@ -75,7 +75,7 @@ def InitDataBase():
 
 
     # init for relation
-    oDatabase.createDB(relation_table.GetSQL("CREATE_RELATION"))
+    #oDatabase.createDB(relation_table.GetSQL("CREATE_RELATION"))
 
     #
     #init for insert_table

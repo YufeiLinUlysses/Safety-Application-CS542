@@ -1,7 +1,5 @@
 <template>
   <div class="home">
-    <!-- <VIS /> -->
-    <!-- <MAP /> -->
     <b-row>
       <b-col>
         <GM />

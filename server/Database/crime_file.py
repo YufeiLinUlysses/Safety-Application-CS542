@@ -82,42 +82,85 @@ CRIME_SQL = {"CreateCrime": """CREATE TABLE CRIMEFILE
              "SelectMAXID": "Select max(CRIMEID) From crimefile",
 
 
-             "InsertFromInsertion":"""
+             "InsertFromInsertion": """
              INSERT INTO CRIMEFILE (LAT, LON, TIMESTAMP, TIMESLOT, TYPEID, POLICE_DISTRICT, CRIMEID)
                         Select I.LAT, I.LON, I.TIMESTAMP, I.TIMESLOT, C.TYPEID, I.POLICE_DISTRICT, %s as CRIMEID
                         From Insertion I, CrimeType C 
                         where I.CONFIRMED = True and I.CrimeType = C.DESCRIPTION""",
 
-            "InsertCrimePeople":"""
+             "InsertCrimePeople": """
              INSERT INTO PERSONFILE (pid)
                 Select CriminalID
                 From Insertion 
                 where CONFIRMED = True
              """,
-            "InsertVictimPeople":"""
+             "InsertVictimPeople": """
              INSERT INTO PERSONFILE (pid)
                         Select VictimID
                         From Insertion
                         where CONFIRMED = True
              """,
-            "InsertInvolve":"""
+             "InsertInvolve": """
              INSERT INTO INVOLVE (pid, isVictim, crimeID)
                         Select VictimID, 'Y' as isVictim, %s as crimeID
                         From Insertion
                         where CONFIRMED= True
              """,
-            "InsertInvolveCrime":"""
+             "InsertInvolveCrime": """
              INSERT INTO INVOLVE (pid, isVictim, crimeID)
                         Select CriminalID, 'N' as isVictim, %s as crimeID
                         From Insertion
                         where CONFIRMED= True
              """,
-            "InsertRelation":"""
+             "InsertRelation": """
              INSERT INTO RelationTable (pid1, pid2, relation)
                         Select VictimID, CriminalID, Relation
                         From Insertion
                         where CONFIRMED = True   
              """,
+
+             "TimeslotCount": """SELECT TIMESLOT, COUNT(*) AS NUM FROM (SELECT DESCRIPTION, TIMESLOT, POLICE_DISTRICT, DIST FROM 
+                                       (SELECT * FROM 
+			                                 (SELECT TYPEID,
+					                                 TIMESLOT,
+					                                 POLICE_DISTRICT,
+					                                 CORDISTANCE(LAT, LON, %s,%s) AS DIST
+                                              FROM CRIMEFILE
+			                                  ORDER BY DIST) TEMP
+                                        WHERE DIST < 1) FINAL
+                                        JOIN 
+                                        CRIMETYPE
+                                        ON FINAL.TYPEID=CRIMETYPE.TYPEID) RESULT
+                                        GROUP BY TIMESLOT 
+                                        ORDER BY NUM DESC""",
+             "PoliceDCount": """SELECT POLICE_DISTRICT, COUNT(*) AS NUM FROM (SELECT DESCRIPTION, TIMESLOT, POLICE_DISTRICT, DIST FROM 
+                                       (SELECT * FROM 
+			                                 (SELECT TYPEID,
+					                                 TIMESLOT,
+					                                 POLICE_DISTRICT,
+					                                 CORDISTANCE(LAT, LON, %s,%s) AS DIST
+                                              FROM CRIMEFILE
+			                                  ORDER BY DIST) TEMP
+                                        WHERE DIST < 1) FINAL
+                                        JOIN 
+                                        CRIMETYPE
+                                        ON FINAL.TYPEID=CRIMETYPE.TYPEID) RESULT
+                                        GROUP BY POLICE_DISTRICT 
+                                        ORDER BY NUM DESC""",
+             "CTypeCount": """SELECT DESCRIPTION, COUNT(*) AS NUM FROM (SELECT DESCRIPTION, TIMESLOT, POLICE_DISTRICT, DIST FROM 
+                                       (SELECT * FROM 
+			                                 (SELECT TYPEID,
+					                                 TIMESLOT,
+					                                 POLICE_DISTRICT,
+					                                 CORDISTANCE(LAT, LON, %s,%s) AS DIST
+                                              FROM CRIMEFILE
+			                                  ORDER BY DIST) TEMP
+                                        WHERE DIST < 1) FINAL
+                                        JOIN 
+                                        CRIMETYPE
+                                        ON FINAL.TYPEID=CRIMETYPE.TYPEID) RESULT
+                                        GROUP BY DESCRIPTION 
+                                        ORDER BY NUM DESC"""
              }
 
 
@@ -137,5 +180,3 @@ def GetData():
 
 def GetSql(sql):
     return CRIME_SQL[sql]
-
-

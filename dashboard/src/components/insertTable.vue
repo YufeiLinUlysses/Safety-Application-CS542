@@ -28,6 +28,7 @@ export default {
         "ID",
         "Lat",
         "Lng",
+        "Police_District",
         "Date",
         "Hour",
         "Relation",
@@ -66,6 +67,7 @@ export default {
             cur["CriminalID"] = i["CriminalID"];
             cur["VictimID"] = i["VictimID"];
             cur["CrimeType"] = i["CrimeType"];
+            cur["Police_District"] = i["POLICE_DISTRICT"];
             cur["Confirmed"] = false;
             result.push(cur);
           }
@@ -77,6 +79,7 @@ export default {
       }
     },
     submitChanges() {
+      var vm = this;
       var result = [];
       for (var i of this.items) {
         var cur = {};
@@ -88,7 +91,26 @@ export default {
       }
       var final = JSON.stringify(result);
       webcall.post("/crimeConfirm", final).then(async function (response) {
-        console.loadData(response.data);
+        var temp = await JSON.parse(JSON.stringify(response.data));
+        var result = [];
+        for (var i of temp) {
+          var cur = {};
+          cur["ID"] = i["InsertID"];
+          cur["Lat"] = i["LAT"];
+          cur["Lng"] = i["LON"];
+          var curT = new Date(i["TIMESTAMP"] * 1000);
+          cur["Date"] =
+            curT.getFullYear() + "-" + curT.getMonth() + "-" + curT.getDate();
+          cur["Hour"] = i["TIMESLOT"];
+          cur["Relation"] = i["Relation"];
+          cur["CriminalID"] = i["CriminalID"];
+          cur["VictimID"] = i["VictimID"];
+          cur["CrimeType"] = i["CrimeType"];
+          cur["Police_District"] = i["POLICE_DISTRICT"];
+          cur["Confirmed"] = false;
+          result.push(cur);
+        }
+        vm.$store.commit("updateTable", result);
       });
       console.log(result);
     },

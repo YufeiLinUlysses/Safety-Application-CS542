@@ -121,6 +121,50 @@ def locAna():
     return result
 
 
+@app.route('/locTimeCount', methods=["POST"])
+def locTCount():
+    db = DB("CRIMINALANALYSIS")
+    data = request.get_json()
+    lat = float(data["lat"])
+    lng = float(data["lng"])
+    result = db.selectDB(cf.GetSql("TimeslotCount"), (lat, lng))
+    return result
+
+
+@app.route('/locPDCount', methods=["POST"])
+def pDCount():
+    db = DB("CRIMINALANALYSIS")
+    data = request.get_json()
+    lat = float(data["lat"])
+    lng = float(data["lng"])
+    result = db.selectDB(cf.GetSql("PoliceDCount"), (lat, lng))
+    return result
+
+
+@app.route("/pds", methods=["GET"])
+def pds():
+    db = DB("CRIMINALANALYSIS")
+    result = db.selectDB(loc.GetSQL("PoliceDs"))
+    return result
+
+
+@app.route("/ctypes", methods=["GET"])
+def ctypes():
+    db = DB("CRIMINALANALYSIS")
+    result = db.selectDB(ct.GetSQL("SelectAllTypes"))
+    return result
+
+
+@app.route('/locCTypeCount', methods=["POST"])
+def cTypeCount():
+    db = DB("CRIMINALANALYSIS")
+    data = request.get_json()
+    lat = float(data["lat"])
+    lng = float(data["lng"])
+    result = db.selectDB(cf.GetSql("CTypeCount"), (lat, lng))
+    return result
+
+
 @app.route('/insertCrime', methods=['POST'])
 def Insert2Insert():
     db = DB("CRIMINALANALYSIS")
@@ -137,7 +181,8 @@ def Insert2Insert():
     dt = datetime.datetime.strptime(cDate, '%Y-%m-%d')
     dt = dt.timestamp()
 
-    insertData = [(lat, lng, dt, cTime, relation, criminal, victim, ctype, policeDistrict)]
+    insertData = [(lat, lng, dt, cTime, relation, criminal,
+                   victim, ctype, policeDistrict)]
     iBefore = db.selectDB(insert_table.GetSql("TABLE_COUNT"))
     db.insertByOneDB(insert_table.GetSql("INSERT_SQL"), insertData)
     iAfter = db.selectDB(insert_table.GetSql("TABLE_COUNT"))
@@ -164,7 +209,7 @@ def ConfirmRequest():
         conf = i["Confirmed"]
         db.updataDB(insert_table.GetSql("UPDATE_TABLE"), (conf, queryID))
     CrimeID = db.selectDB(cf.GetSql("SelectMAXID"))
-    CrimeIDList= json.loads(CrimeID)
+    CrimeIDList = json.loads(CrimeID)
     iCrimeID = int(CrimeIDList[0].get('max(CRIMEID)')) + 1
     db.InsertWithErrorMessage(cf.GetSql("InsertFromInsertion"), [(iCrimeID)])
     db.InsertWithErrorMessage(cf.GetSql("InsertCrimePeople"))
