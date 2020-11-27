@@ -1,5 +1,3 @@
-<!--author: xli14@WPI.EDU-->
-
 <template>
   <div id="app" class="mt-3">
     <h5 class="text-center">Weather Frequency</h5>
@@ -17,14 +15,12 @@
 <script>
 import { GChart } from "vue-google-charts";
 import axios from "axios";
-
 var webcall = axios.create({
   baseURL: "http://127.0.0.1:5000/",
   timeout: 20000,
   withCredentials: false,
   headers: { "Content-Type": "application/json" },
 });
-
 export default {
   name: "App",
   components: {
@@ -75,29 +71,21 @@ export default {
     onChartReady(chart, google) {
       this.chartsLib = google;
     },
-    timeCount() {
+    createGraph() {
       var vm = this;
+      var url = "/weathercnt";
       try {
-        webcall
-          .post("/locTimeCount", this.$store.state.location)
-          .then(async function (response) {
-            var temp = await JSON.parse(JSON.stringify(response.data));
-            if (temp.length == 0) {
-              alert(
-                "Sorry, We do not have any info on the location you searched"
-              );
-            }
-            var result = [];
-            for (var i of temp) {
-              result.push({
-                position: {
-                  lat: parseFloat(i["LAT"]),
-                  lng: parseFloat(i["LON"]),
-                },
-              });
-            }
-            vm.markers = result;
-          });
+        webcall.get(url).then(async function (response) {
+          var temp = await JSON.parse(JSON.stringify(response.data));
+          var result = [["text", "value"]];
+          for (var i of temp) {
+            var cur = [];
+            cur.push(i["text"]);
+            cur.push(parseInt(i["value"]));
+            result.push(cur);
+          }
+          vm.chartData = result.slice(0, 11);
+        });
       } catch (err) {
         console.log("error");
         alert(err);
@@ -105,7 +93,7 @@ export default {
     },
   },
   mounted() {
-    this.timeCount();
+    this.createGraph();
   },
 };
 </script>
