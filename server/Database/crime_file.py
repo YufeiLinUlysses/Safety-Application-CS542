@@ -164,7 +164,13 @@ CRIME_SQL = {"CreateCrime": """CREATE TABLE CRIMEFILE
              "DistrictCount": """SELECT DISTRICT, COUNT(*) 
                                  FROM CRIMEFILE JOIN LOCATION 
                                  ON CRIMEFILE.POLICE_DISTRICT = LOCATION.POLICE_DISTRICT 
-                                 GROUP BY DISTRICT"""
+                                 GROUP BY DISTRICT""",
+             "UpdateSafety": """Update location L join 
+                                (SELECT count(*) as C, police_district
+                                from crimefile
+                                group by POLICE_DISTRICT) as Temp 
+                                on L.police_district = Temp.police_district
+                                Set L.safetyIndex = Temp.C""",
              }
 
 

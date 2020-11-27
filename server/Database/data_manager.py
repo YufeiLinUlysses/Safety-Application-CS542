@@ -108,10 +108,14 @@ def CreateCrimeFileTrigger():
 def AddDisFunc():
     oDatabase.AddFunction(crime_file.GetSql("DistanceFunc"))
 
+def UpdateSafetyIndex():
+    oDatabase.updataDB(crime_file.GetSql("UpdateSafety"))
 
 
-InitDataBase()
+
+#InitDataBase()
 # createEnvSummary()
 # GetCrimeCases()
 # GetPeopleNumber()
 # AddDisFunc()
+UpdateSafetyIndex()

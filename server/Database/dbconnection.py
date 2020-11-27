@@ -23,11 +23,15 @@ class DB():
             print(e)
             return None
 
-    def updataDB(self, sSql, data):
+    def updataDB(self, sSql, data=None):
         self.db.ping(reconnect=True)
         try:
+
             dbcur = self.db.cursor()
-            dbcur.execute(sSql, data)
+            if data == None:
+                dbcur.execute(sSql)
+            else:
+                dbcur.execute(sSql, data)
             self.db.commit()
         except Exception as e:
             print(e)
