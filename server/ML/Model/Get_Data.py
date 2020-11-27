@@ -46,6 +46,6 @@ def Get_INNERJOINT_Data():
         for row in csv_reader:
                 INNERJOINT_List.append(
                 (int(row["CRIME_NUMBER"]), int(row["OFFENSE_CODE"]), str(row["NAME"]),
-                int(row["MONTH"]), int(row["DAY_OF_WEEK"]), int(row["HOUR"]), int(row["DISTRICT"]), 
+                int(row["MONTH"]), int(row["DAY_OF_WEEK"]), int(row["HOUR"]),  
                 str(row["LATITUDE"]), str(row["LONGTITUDE"]), int(row["SHOOTING"]), int(row["DANGER"])))
     return INNERJOINT_List

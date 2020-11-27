@@ -36,10 +36,12 @@ def predict(Xtest, W, b):
     n = Xtest.shape[0]
     c = W.shape[0]
     Y = np.zeros(n) # initialize as all zeros
-    P = np.asmatrix(np.zeros((n,c)))  
+    P = np.asmatrix(np.zeros((n,c)))
+
     for i, x in enumerate(Xtest):
         x = x.T # convert to column vector
-
+#         print(type(x))
+        z = np.asmatrix(np.zeros(b.shape))
         z = np.dot(W,x) + b
         a = np.mat(np.zeros(z.shape))
         for j in range(0,z.shape[0]):
