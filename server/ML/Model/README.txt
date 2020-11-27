@@ -1,18 +1,8 @@
-1. read csv into list
-MONTH,
-DAY_OF_WEEK [1,7],
-DISTRICT [1,12],
-HOUR,
-Lat,
-Long,
-DANGER (label 1, relatively safe, not safe, dangerous)
-2. normalize Lat and Long
-3. randomly split into training set, test set (8:2), X and Y
-4. bootstrap training set
-5. use logistic regression
-	6. NN
-	7. polynomial logistic regression
-8. Softmax
-9. Danger index
-DI = (p1+2p2+3(1-p1-p2))/3
-SI = 1-DI
+For Xuhui:
+
+Run result.py to get train and test accuracy,in which you can tune hyperparameters(alpha, n_epochs) 
+and select proper data_num(5000 randomly from over 200000).
+
+For Yufei:
+
+Run new_input.py to insert fresh input from users(front end).
