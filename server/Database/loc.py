@@ -31,11 +31,7 @@ LOC_SQL = {'CREATELOCATION': '''CREATE TABLE LOCATION (
 									ON CRIMEFILE.LOCATIONID = LOCATION.LOCATIONID 
 									GROUP BY STREET
 									ORDER BY cnt DESC''',
-			'nearbyCriLoc':'''SELECT DISTINCT LAT AS lat, LON AS lon
-			                  FROM LOCATION WHERE 
-							  CORDISTANCE(LAT, LON, %s, %s) <=3 
-							  ORDER BY CORDISTANCE(LAT, LON, %s, %s) 
-							  LIMIT 10;'''
+           'PoliceDs': "SELECT DISTINCT POLICE_DISTRICT FROM LOCATION",
 		   }
 
 def GetData():

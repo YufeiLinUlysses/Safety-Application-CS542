@@ -5,8 +5,8 @@
       :center="center"
       style="height: 400px; width: 100%"
       zoomDisable="false"
-      minZoom=11
-      maxZoom=11
+      minZoom="11"
+      maxZoom="11"
     >
       <l-tile-layer :url="url" :attribution="attribution" />
       <l-geo-json
@@ -69,7 +69,7 @@ export default {
       }
       return (feature, layer) => {
         layer.bindTooltip(
-          "<div>Density:" +
+          "<div>Number of Crimes:" +
             feature.properties.density +
             "</div><div>Region: " +
             feature.properties.Name +
@@ -88,15 +88,15 @@ export default {
   },
   methods: {
     getColor: function (d) {
-      return d > 20
+      return d > 38010
         ? "#800026"
-        : d > 15
+        : d > 29266
         ? "#BD0026"
-        : d > 10
+        : d > 20522
         ? "#E31A1C"
-        : d > 5
+        : d > 12829
         ? "#FC4E2A"
-        : d > 0
+        : d > 5137
         ? "#FD8D3C"
         : "#FFEDA0";
     },

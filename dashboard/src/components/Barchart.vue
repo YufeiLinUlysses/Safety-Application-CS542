@@ -1,5 +1,3 @@
-<!--author: xli14@WPI.EDU-->
-
 <template>
   <div id="app" class="mt-3">
     <h5 class="text-center">Weather Frequency</h5>
@@ -17,14 +15,12 @@
 <script>
 import { GChart } from "vue-google-charts";
 import axios from "axios";
-
 var webcall = axios.create({
   baseURL: "http://127.0.0.1:5000/",
   timeout: 20000,
   withCredentials: false,
   headers: { "Content-Type": "application/json" },
 });
-
 export default {
   name: "App",
   components: {

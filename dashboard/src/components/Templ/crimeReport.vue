@@ -55,15 +55,11 @@
           </b-form-select>
         </b-form-group>
         <b-form-group label="Type" label-for="ctype">
-          <b-form-select
-            id="ctype"
+          <v-selectbox
             v-model="type"
-            value-field="value"
-            text-field="text"
+            label="text"
             :options="types"
-            style="width: 150px"
-          >
-          </b-form-select>
+          ></v-selectbox>
         </b-form-group>
         <h4>Date Time</h4>
         <b-form-group label="Date" label-for="Date">
@@ -101,6 +97,17 @@
             type="number"
           ></b-form-input>
         </b-form-group>
+        <b-form-group label="Police District" label-for="pd">
+          <b-form-select
+            id="pd"
+            v-model="police"
+            value-field="value"
+            text-field="text"
+            :options="policeD"
+            style="width: 150px"
+          >
+          </b-form-select>
+        </b-form-group>
       </form>
     </b-modal>
   </div>
@@ -108,6 +115,7 @@
 
 <script>
 import axios from "axios";
+
 var webcall = axios.create({
   baseURL: "http://127.0.0.1:5000/",
   timeout: 20000,
@@ -115,10 +123,11 @@ var webcall = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 export default {
+  components: {},
   data() {
     return {
       relation: "Not Known",
-      type: "Not Known",
+      police: "Not Known",
       name: "",
       criminal: "",
       cdate: null,
@@ -129,20 +138,68 @@ export default {
       nameState: null,
       submittedNames: [],
       relations: [
-        { text: "Not Known", value: "Not Known" },
+        { text: "Family", value: "Family" },
         { text: "Friend", value: "Friend" },
-        { text: "Lovers", value: "Lovers" },
+        { text: "Foreign", value: "Foreign" },
       ],
       types: [
         { text: "Not Known", value: "Not Known" },
         { text: "Burglary", value: "Burglary" },
         { text: "Murder", value: "Murder" },
       ],
+      policeD: [
+        { text: "Not Known", value: "Not Known" },
+        { text: "C12", value: "C12" },
+        { text: "C13", value: "C13" },
+      ],
       report: {},
     };
   },
-  components: {},
+  mounted() {
+    this.loadDistrict();
+    this.loadTypes();
+  },
   methods: {
+    loadTypes() {
+      var vm = this;
+      var url = "/ctypes";
+      try {
+        webcall.get(url).then(async function (response) {
+          var temp = await JSON.parse(JSON.stringify(response.data));
+          var result = [];
+          for (var i of temp) {
+            var cur = {};
+            cur["text"] = i["DESCRIPTION"];
+            cur["value"] = i["TYPEID"];
+            result.push(cur);
+          }
+          vm.types = result;
+        });
+      } catch (err) {
+        console.log("error");
+        alert(err);
+      }
+    },
+    loadDistrict() {
+      var vm = this;
+      var url = "/pds";
+      try {
+        webcall.get(url).then(async function (response) {
+          var temp = await JSON.parse(JSON.stringify(response.data));
+          var result = [];
+          for (var i of temp) {
+            var cur = {};
+            cur["text"] = i["POLICE_DISTRICT"];
+            cur["value"] = i["POLICE_DISTRICT"];
+            result.push(cur);
+          }
+          vm.policeD = result;
+        });
+      } catch (err) {
+        console.log("error");
+        alert(err);
+      }
+    },
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity();
       this.nameState = valid;
@@ -154,12 +211,11 @@ export default {
       this.criminal = "";
       this.victim = "";
       this.relation = "Not Known";
-      this.type = "Not Known";
-      this.name = "";
       this.latitude = null;
       this.longitude = null;
       this.ctime = null;
       this.cdate = null;
+      this.police = "Not Known";
     },
     handleOk(bvModalEvt) {
       // Prevent modal from closing
@@ -204,12 +260,13 @@ export default {
       this.report["Criminal"] = this.criminal;
       this.report["Victim"] = this.victim;
       this.report["Relation"] = this.relation;
-      this.report["Type"] = this.type;
+      this.report["Type"] = this.type["value"];
       this.report["Latitude"] = this.latitude;
       this.report["Longitude"] = this.longitude;
       this.report["Date"] = this.cdate;
       var curTime = Number(this.ctime.split(":")[0]);
       this.report["Time"] = curTime - (curTime % 3);
+      this.report["PoliceDistrict"] = this.police;
       console.log(this.report);
 
       var vm = this;

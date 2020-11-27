@@ -6,14 +6,17 @@
     >
     <br />
     <nearBy />
+    <dash />
   </b-container>
 </template>
 
 <script>
 import nearBy from "@/components/nearbymap.vue";
+import dash from "@/components/NearByGraphs/dash.vue";
 export default {
   components: {
     nearBy,
+    dash,
   },
   data() {
     return { lat: 0, lng: 0 };
