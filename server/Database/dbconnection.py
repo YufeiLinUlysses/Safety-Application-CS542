@@ -109,7 +109,6 @@ class DB():
             self.db.commit()
 
         except Exception as e:
-            print(e)
             return False
         return True
 
