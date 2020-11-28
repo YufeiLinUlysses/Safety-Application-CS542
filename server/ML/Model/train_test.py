@@ -1,6 +1,6 @@
 # written by Jingfeng Xia, jxia@wpi.edu
 
-import LR
+from . import LR
 import numpy as np
 import math
 

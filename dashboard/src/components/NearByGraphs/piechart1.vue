@@ -53,6 +53,7 @@ export default {
           .post(url, vm.$store.state.location)
           .then(async function (response) {
             var temp = await JSON.parse(JSON.stringify(response.data));
+            console.log(temp);
             if (temp.length <= 1 || temp.length == undefined) {
               vm.show = false;
             } else {

@@ -14,7 +14,6 @@
 <script>
 import { GChart } from "vue-google-charts";
 import axios from "axios";
-// import { delete } from 'vue/types/umd';
 
 var webcall = axios.create({
   baseURL: "http://127.0.0.1:5000/",
@@ -54,20 +53,23 @@ export default {
           .post(url, vm.$store.state.location)
           .then(async function (response) {
             var temp = await JSON.parse(JSON.stringify(response.data));
-            if (temp.length <= 1 || temp.length == undefined) {
+            console.log(temp);
+            if (temp.length <= 1 || temp == undefined) {
               vm.show = false;
             } else {
-              var result = [["POLICE_DISTRICT", "NUM"]];
-              temp[5]["POLICE_DISTRICT"] = "OTHER";
-              for (var i = 6; i < temp.length; i++) {
-                temp[5]["NUM"] =
-                  parseInt(temp[i]["NUM"]) + parseInt(temp[5]["NUM"]);
-                temp.splice(i, 1);
-                i--;
+              var result = [["PD", "NUM"]];
+              if (temp.length > 5) {
+                temp[5]["PD"] = "OTHER";
+                for (var i = 6; i < temp.length; i++) {
+                  temp[5]["NUM"] =
+                    parseInt(temp[i]["NUM"]) + parseInt(temp[5]["NUM"]);
+                  temp.splice(i, 1);
+                  i--;
+                }
               }
               for (var j of temp) {
                 var cur = [];
-                cur.push(j["POLICE_DISTRICT"]);
+                cur.push(j["PD"]);
                 cur.push(parseInt(j["NUM"]));
                 result.push(cur);
               }

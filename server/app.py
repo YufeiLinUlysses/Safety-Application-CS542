@@ -3,6 +3,9 @@ from flask import Flask, request
 import datetime
 from Database.dbconnection import DB
 from Database import envir, involve, loc, person_file as pf, crime_file as cf, crime_type as ct, insert_table
+import numpy as np
+import ML.Model.train_test as TT
+
 app = Flask(__name__)
 
 
@@ -131,6 +134,50 @@ def locTCount():
     return result
 
 
+@app.route('/locCrimeCount', methods=['POST'])
+def locCCnt():
+    db = DB("CRIMINALANALYSIS")
+    data = request.get_json()
+    lat = float(data["lat"])
+    lng = float(data["lng"])
+    result = db.selectDB(cf.GetSql("CntCrime"), (lat, lng))
+    return result
+
+
+@app.route('/safetyindex', methods=['POST'])
+def safetyindex():
+    # DAY_OF_WEEK = {"MONDAY": 1, "TUESDAY": 2, "WEDNESDAY": 3,
+    #                "THURSDAY": 4, "FRIDAY": 5, "SATURDAY": 6, "SUNDAY": 7}
+    data = request.get_json()
+    W = np.mat([[0.70589358, 0.57894807, 0.57555195, 0.64646587, 0.45634837],
+                [0.69749017, 0.56445017, 0.38924738, 0.67382041, 0.68272357],
+                [0.67179093, 0.5696221, 0.65087029, 0.95102331, 0.32250566]])
+    b = np.mat([[0.4704748],
+                [0.83051006],
+                [-0.48455419]])
+
+    # X feature: MONTH, DAY_OF_WEEK, HOUR, LATITUDE-36, LONGTITUDE+78
+    raw_input = np.array(
+        [[data["month"], data["day"], data["hour"], data["lat"], data["lng"]]])
+    # for i in range(0, raw_input.shape[0]):
+    #     raw_input[i, 1] = DAY_OF_WEEK[raw_input[i, 1]]
+    #     raw_input[i,3] = DISTRICT[raw_input[i,3]]
+    input = np.mat(raw_input.astype(np.float))
+
+    # z_score with mean, std from big data
+    input = input.T
+    mean = [6.581255, 3.9459, 13.29537, 42.322349287354555, -71.0826005364158]
+    std = [3.275075209056275, 1.9669222633342682,
+           6.271098513267034, 0.03175847257436829, 0.02939035430914813]
+    for i in range(0, input.shape[0]):
+        input[i] = (input[i]-mean[i])/std[i]
+    input = input.T
+    # print(input)
+
+    Y, _ = TT.predict(input, W, b)
+    return json.dumps({"SI": Y[0]})
+
+
 @app.route('/locPDCount', methods=["POST"])
 def pDCount():
     db = DB("CRIMINALANALYSIS")
@@ -153,6 +200,7 @@ def ctypes():
     db = DB("CRIMINALANALYSIS")
     result = db.selectDB(ct.GetSQL("SelectAllTypes"))
     return result
+
 
 @app.route('/locCTypeCount', methods=["POST"])
 def cTypeCount():

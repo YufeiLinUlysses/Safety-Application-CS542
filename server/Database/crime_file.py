@@ -133,7 +133,7 @@ CRIME_SQL = {"CreateCrime": """CREATE TABLE CRIMEFILE
                                         ON FINAL.TYPEID=CRIMETYPE.TYPEID) RESULT
                                         GROUP BY TIMESLOT 
                                         ORDER BY NUM DESC""",
-             "PoliceDCount": """SELECT POLICE_DISTRICT, COUNT(*) AS NUM FROM (SELECT DESCRIPTION, TIMESLOT, POLICE_DISTRICT, DIST FROM 
+             "PoliceDCount": """SELECT POLICE_DISTRICT AS PD, COUNT(*) AS NUM FROM (SELECT DESCRIPTION, TIMESLOT, POLICE_DISTRICT, DIST FROM 
                                        (SELECT * FROM 
 			                                 (SELECT TYPEID,
 					                                 TIMESLOT,
@@ -161,6 +161,14 @@ CRIME_SQL = {"CreateCrime": """CREATE TABLE CRIMEFILE
                                         ON FINAL.TYPEID=CRIMETYPE.TYPEID) RESULT
                                         GROUP BY DESCRIPTION 
                                         ORDER BY NUM DESC""",
+             "CntCrime": """SELECT COUNT(*) AS NUM FROM 
+			                    (SELECT TYPEID,
+					                    TIMESLOT,
+					                    POLICE_DISTRICT,
+					                    CORDISTANCE(LAT, LON, %s,%s) AS DIST
+                                 FROM CRIMEFILE
+			                     ORDER BY DIST) TEMP
+                            WHERE DIST < 1""",
              "DistrictCount": """SELECT DISTRICT, COUNT(*) 
                                  FROM CRIMEFILE JOIN LOCATION 
                                  ON CRIMEFILE.POLICE_DISTRICT = LOCATION.POLICE_DISTRICT 
