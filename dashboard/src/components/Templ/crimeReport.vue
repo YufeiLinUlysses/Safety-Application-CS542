@@ -81,6 +81,7 @@
             :state="nameState"
             required
             type="number"
+            step="0.00000001"
           ></b-form-input>
         </b-form-group>
         <b-form-group
@@ -95,6 +96,7 @@
             :state="nameState"
             required
             type="number"
+            step="0.00000001"
           ></b-form-input>
         </b-form-group>
         <b-form-group label="Police District" label-for="pd">
